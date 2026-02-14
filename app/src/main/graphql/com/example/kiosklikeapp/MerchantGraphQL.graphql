@@ -1,0 +1,12 @@
+query GetMerchantBranding($id: ID!) {
+    merchant(id: $id) {
+        id
+        branding {
+            logoUrl
+            coverUrl
+            buttonBgColor
+            buttonTextColor
+            coverBrightness
+        }
+    }
+}

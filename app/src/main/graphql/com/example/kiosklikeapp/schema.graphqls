@@ -1,0 +1,6877 @@
+type Query {
+  _empty: String
+
+  admin(id: ID!): Admin
+
+  admins(skip: Int, take: Int, pagination: Boolean): AdminsOutput
+
+  adminMe: Admin
+
+  userMe: User
+
+  cloverCustomerCards(merchantId: ID!): [CloverCustomerCard]
+
+  cloverCustomer(merchantId: ID!): CloverCustomer
+
+  """
+  This can be merchantId or cloverMerchantId
+  """
+  cloverMerchant(id: ID!): CloverMerchant
+
+  cloverMerchants(skip: Int, take: Int, pagination: Boolean): CloverMerchantsOutput
+
+  cloverMerchantPosToken(id: ID!): String
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  importCloverMerchantCategories(merchantId: ID, take: Int, skip: Int, categoryIds: [String]): [ImportCloverMerchantCategoriesOutput!]!
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  importCloverMerchantItems(merchantId: ID, take: Int, skip: Int, itemIds: [String]): [ImportCloverMerchantItemsOutput!]!
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  importCloverMerchantModifierGroups(merchantId: ID, take: Int, skip: Int, modifierGroupIds: [String]): [ImportCloverMerchantModifierGroupsOutput!]!
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  importCloverMerchantTaxes(merchantId: ID, skip: Int, take: Int): [ImportCloverMerchantTaxesOutput!]!
+
+  consumer: Consumer
+
+  consumerAddresses: [ConsumerAddress]
+
+  discount(id: ID!): Discount
+
+  discounts(skip: Int, take: Int, pagination: Boolean): DiscountsOutput
+
+  dynamicPrice(id: ID!): DynamicPrice
+
+  dynamicPrices(merchantId: ID, enabled: Boolean, enabledForApps: [AppType!], skip: Int, take: Int, pagination: Boolean): DynamicPricesOutput
+
+  discountPromoCodeValidation(promoCode: String!, enabledForApp: AppType!, merchantId: String!): Discount
+
+  drawer(id: ID!): Drawer
+
+  drawers(skip: Int, take: Int, pagination: Boolean): DrawerOutput!
+
+  kds(id: ID!): Kds
+
+  kdsMessages(kdsId: ID!): [KdsMessage!]
+
+  kdses(skip: Int, take: Int, pagination: Boolean): KdsesOutput!
+
+  searchGooglePlaces(place: String!, sessiontoken: String!): GooglePlacesOutput
+
+  logs(application: AppType!, createdAtFrom: DateTime!, merchantId: String!, pagination: Boolean, search: String, skip: Int, take: Int): LogsOutput!
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menu(id: ID!, merchantId: ID): Menu
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menus(skip: Int, take: Int, pagination: Boolean, merchantId: ID, tableId: ID, enabledForApps: [AppType!]): MenusOutput!
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menuCategory(id: ID!, merchantId: ID): MenuCategory
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menuCategories(skip: Int, take: Int, pagination: Boolean, merchantId: ID): MenuCategoriesOutput!
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menuItem(id: ID!, merchantId: ID): MenuItem
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  menuItems(skip: Int, take: Int, pagination: Boolean, ids: [ID], merchantId: ID, search: String): MenuItemsOutput!
+
+  batchCloseMerchantIds(time: DateTime!): [ID!]
+
+  """
+  id is required for non authorized users and admins
+  """
+  merchant(id: ID): Merchant
+
+  merchants(search: ID, skip: Int, take: Int, pagination: Boolean, filter: MerchantsFilter): MerchantsOutput!
+
+  merchantConfiguration: MerchantConfiguration!
+
+  multimerchantGroup(id: ID!): MultimerchantGroup!
+
+  multimerchantGroups(type: MultimerchantGroupType): [MultimerchantGroup!]!
+
+  """
+  id is required for admins
+  """
+  multimerchantMerchants(id: ID): [Merchant!]!
+
+  modifier(id: ID!): Modifier
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  modifiers(merchantId: ID, skip: Int, take: Int, pagination: Boolean): ModifiersOutput
+
+  order(id: ID!): Order
+
+  orders(application: AppType, consumerId: ID, createdAtFrom: DateTime, createdAtTo: DateTime, employeeId: ID, hasFailedRefunds: Boolean, isOpenOrder: Boolean, isOpenTab: Boolean, isReceiptSent: Boolean, merchantId: ID, merchantIds: [ID], orderIds: [ID], pagination: Boolean, paymentProviders: [PaymentProviders!], paymentStatuses: [OrderCheckPaymentStatuses!], scheduled: Boolean, search: String, skip: Int, sortBy: String, sortOrder: String, statuses: [OrderStatuses!], take: Int, type: [String!], updatedAtFrom: DateTime, updatedAtTo: DateTime): OrdersOutput!
+
+  orderType(id: ID!): OrderType
+
+  orderTypes(skip: Int, take: Int, pagination: Boolean): OrderTypesOutput
+
+  """
+  Required permissions: REPORTING_VIEW_SALES_REPORTS
+  """
+  ordersSalesOverview(dateFrom: DateTime!, dateTo: DateTime!, employeeId: ID, posId: String): [OrdersSalesOverviewOutput!]!
+
+  """
+  Required permissions: REPORTING_VIEW_SALES_REPORTS
+  """
+  ordersSalesOverviewExtended(dateFrom: DateTime!, dateTo: DateTime!, employeeId: ID, posId: String): OrdersSalesOverviewExtendedOutput
+
+  """
+  Required permissions: REPORTING_VIEW_SALES_REPORTS
+  """
+  ordersSalesProductMix(menuCategoryId: ID, dateFrom: DateTime!, dateTo: DateTime!, revenueCenter: String): [OrdersSalesProductMixOutput!]!
+
+  """
+  Required permissions: REPORTING_VIEW_SALES_REPORTS
+  """
+  ordersSalesTaxes(dateFrom: DateTime!, dateTo: DateTime!): [OrdersSalesTaxesOutput!]!
+
+  """
+  Required permissions: REPORTING_VIEW_TIPS
+  """
+  ordersSalesTips(dateFrom: DateTime!, dateTo: DateTime!, paymentStatuses: [OrderCheckPaymentStatuses], tableNames: [String], tableSections: [String]): [OrdersSalesTipsOutput!]!
+
+  groupOrder(id: ID!, merchantId: ID!): GroupOrder
+
+  orderThrottlingItemsCount(merchantId: ID!): [OrderThrottlingItemsCountOutput!]!
+
+  """
+  merchantId is required when user is CONSUMER
+  """
+  orderThrottlingRules(merchantId: ID): [OrderThrottlingRule!]!
+
+  orderVoid(id: ID!): OrderVoid
+
+  orderVoids(skip: Int, take: Int, pagination: Boolean): OrderVoidsOutput
+
+  failedRefundTransactions: FailedRefundTransactionsOutput
+
+  unsyncedTransactionsMerchantIds: [String!]
+
+  paymentMerchantTransactions(merchantId: ID, invoiceId: ID, status: PaymentTransactionStatuses, pagination: Boolean, skip: Int, take: Int): PaymentMerchantTransactionsOutput
+
+  invoices(merchantId: ID, scheduledFrom: DateTime, scheduledTo: DateTime, statuses: [InvoiceStatuses!], pagination: Boolean, skip: Int, take: Int): InvoicesOutput
+
+  paymentTransaction(id: String!): PaymentTransaction
+
+  paymentTransactions(amount: Int, createdAtFrom: DateTime, createdAtTo: DateTime, employeeIds: [String!], pagination: Boolean, paymentMethods: [PaymentMethod!], search: String, skip: Int, take: Int, transactionIds: [String!], transactionTypes: [PaymentTransactionType!]): PaymentTransactionsOutput
+
+  achAccountVerification(transactionId: String!): AchAccountVerification
+
+  payrixCustomer: PayrixCustomer
+
+  payrixMerchant(merchantId: ID!): PayrixMerchant
+
+  payrixMerchantCustomer: PayrixMerchantCustomer
+
+  payrixExternalPayoutEntries(disbursementId: String!, event: Int!, skip: Int!, take: Int!): PayrixExternalPayoutEntriesOutput!
+
+  payrixExternalPayout(disbursementId: String!): PayrixExternalPayout
+
+  payrixExternalPayoutReport(disbursementId: String!, event: Int!, skip: Int!, take: Int!): [PayrixExternalPayoutEntryReport]
+
+  payrixExternalPayouts(skip: Int!, take: Int!): PayrixExternalPayoutsOutput!
+
+  pos(id: ID!): Pos
+
+  poses(skip: Int, take: Int, pagination: Boolean): PosOutput!
+
+  printer(id: ID!): Printer
+
+  printers(skip: Int, take: Int, pagination: Boolean): PrintersOutput!
+
+  printersStatus: Boolean!
+
+  printerStatus(printerMacAddress: MAC!): Boolean!
+
+  revenueCenter(id: ID!): RevenueCenter
+
+  revenueCenters: RevenueCenterOutput!
+
+  sevenShiftsLocationDepartments: [SevenShiftsLocationDepartment!]!
+
+  sevenShiftsLocationRoles: [SevenShiftsLocationRole!]!
+
+  sevenShiftsLocationUsers: [SevenShiftsLocationUser!]!
+
+  sevenShiftsMerchant: SevenShiftsMerchant
+
+  sevenShiftsMerchantLocations: [SevenShiftsMerchantLocation!]!
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  table(id: ID!, merchantId: ID): Table
+
+  tables(skip: Int, take: Int, pagination: Boolean): TablesOutput
+
+  tableSection(id: ID!): TableSection
+
+  tableSections(skip: Int, take: Int, pagination: Boolean): TableSectionsOutput
+
+  tax(id: ID!): Tax
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  taxes(merchantId: ID, skip: Int, take: Int, pagination: Boolean): TaxesOutput
+
+  """
+  If **userIds** is not provided, the query will return time clocks for the current user.
+
+  If **userIds** is provided, the query will return time clocks for the specified users.
+
+  If **empty array** is provided, the query will return time clocks for all users.
+  """
+  timeClocks(clockedInFrom: DateTime, clockedOutTo: DateTime, isOpenTimeClock: Boolean, pagination: Boolean, skip: Int, take: Int, userIds: [ID!]): TimeClocksOutput
+
+  """
+  If **id** is not provided, the query will return the active time clock if exist.
+
+  If **id** is provided, the query will return the time clock with the specified id
+  """
+  timeClock(id: ID): TimeClock
+
+  payrollSummary(endDate: DateTime, pagination: Boolean, skip: Int, startDate: DateTime, take: Int, userIds: [ID!]): PayrollSummaryOutput
+
+  userByEmail(email: String!): User
+
+  userById(id: ID!): User
+
+  userByPin(pin: String!): User
+
+  userPermissions: [UserPermissions!]!
+
+  userPermissionsGroup(id: ID!): UserPermissionsGroup
+
+  userPermissionsGroups(skip: Int, take: Int, pagination: Boolean): UserPermissionsGroupsOutput!
+
+  userTipsReport(id: ID!): UserTipsReport
+
+  userTipsReports(skip: Int, take: Int, pagination: Boolean, dateFrom: DateTime, dateTo: DateTime): UserTipsReportsOutput
+
+  users(skip: Int, take: Int, pagination: Boolean, role: String, email: String, search: String): UsersOutput
+}
+
+"""
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+"""
+scalar ID
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+type Mutation {
+  _empty: String
+
+  createAdmin(input: CreateAdminInput!): Admin
+
+  updateAdmin(id: ID!, input: UpdateAdminInput!): Admin
+
+  deleteAdmin(id: ID!): Admin
+
+  authAdminSignIn(input: AuthSignInInput!, authAppType: AuthAppType!): AdminTokenOutput
+
+  authRefreshToken(authAppType: AuthAppType!, token: String!, refreshToken: String!, sessionId: ID!): RefreshTokenOutput
+
+  authSignOut(authAppType: AuthAppType!, sessionId: ID!): Boolean
+
+  authUserForgotPassword(input: AuthForgotPasswordInput!): Boolean
+
+  authUserPasswordReset(input: AuthResetPasswordInput!): Boolean
+
+  authUserPinIn(pin: String!, authAppType: AuthAppType!, sessionId: ID!): UserTokenOutput
+
+  authUserPinOut(authAppType: AuthAppType!, sessionId: ID!): UserPinOutOutput
+
+  authUserSignIn(input: AuthSignInInput!, authAppType: AuthAppType!): UserTokenOutput
+
+  authUserSignInMerchant(merchantId: ID!, authAppType: AuthAppType!, sessionId: ID!): UserTokenOutput
+
+  authUserSignInPermission(permissionsGroupId: ID!, authAppType: AuthAppType!, sessionId: ID!): UserTokenOutput
+
+  authUserSignUp(input: AuthSignUpInput!): Boolean
+
+  updateUserPassword(input: AuthUpdatePasswordInput!): Boolean
+
+  createCloverMerchant(input: CreateCloverMerchantInput!): CloverMerchant
+
+  createCloverCustomerCard(merchantId: ID!, input: CreateCloverCustomerCardInput): CloverCustomerCard
+
+  updateCloverCustomerCard(merchantId: ID!, input: UpdateCloverCustomerCardInput): CloverCustomerCard
+
+  updateConsumer(input: ConsumerUpdateInput!): Consumer
+
+  createConsumerAddress(input: CreateConsumerAddressInput!): ConsumerAddress
+
+  updateConsumerAddress(id: ID!, input: UpdateConsumerAddressInput!): ConsumerAddress
+
+  deleteConsumerAddress(id: ID!): ConsumerAddress
+
+  cashDiscountInventoryUpdate(input: CashDiscountInventoryUpdateInput!): MerchantConfiguration
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DISCOUNTS
+  """
+  createDiscount(input: CreateDiscountInput!): Discount
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DYNAMIC_PRICING
+  """
+  createDynamicPrice(input: CreateDynamicPriceInput!): DynamicPrice
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DISCOUNTS
+  """
+  deleteDiscount(id: ID!): Discount
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DYNAMIC_PRICING
+  """
+  deleteDynamicPrice(id: ID!): DynamicPrice
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DISCOUNTS
+  """
+  updateDiscount(id: ID!, input: UpdateDiscountInput!): Discount
+
+  """
+  Required permissions: DISCOUNTS_CREATE_EDIT_DYNAMIC_PRICING
+  """
+  updateDynamicPrice(id: ID!, input: UpdateDynamicPriceInput!): DynamicPrice
+
+  onboardDoordashMerchant: Merchant
+
+  createDoordashDeliveryQuote(input: CreateDoordashDeliveryQuoteInput!): DeliveryQuote
+
+  createDrawer(input: CreateDrawerInput!): Drawer
+
+  updateDrawer(id: ID!, input: UpdateDrawerInput!): Drawer
+
+  deleteDrawer(id: ID!): Drawer
+
+  """
+  merchantId is required when user is not authenticated
+  """
+  sendReceipt(merchantId: ID, email: String, input: [SendReceiptInput!]!): Boolean!
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  createKds(input: CreateKdsInput!): Kds!
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  deleteKds(id: ID!): Kds
+
+  updateKds(id: ID!, input: UpdateKdsInput!): Kds
+
+  updateKdsMessages(input: [UpdateKdsMessageInput!]!): [KdsMessage]
+
+  createLog(input: CreateLogInput!): Log
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_MENUS
+  """
+  createMenu(input: CreateMenuInput!): Menu!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_MENUS
+  """
+  updateMenu(id: ID!, input: UpdateMenuInput!): Menu
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_MENUS
+  """
+  updateMenusOrder(input: [UpdateMenuOrderInput!]!): [Menu!]!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_MENUS
+  """
+  deleteMenu(id: ID!): Menu
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  createMenuCategory(input: CreateMenuCategoryInput!): MenuCategory!
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  createMenuCategories(merchantId: ID, input: [CreateMenuCategoriesInput!]!): [MenuCategory!]!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  updateMenuCategory(id: ID!, input: UpdateMenuCategoryInput!): MenuCategory
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  updateMenuCategoriesOrder(id: ID!, input: [UpdateMenuCategoriesOrderInput!]!): Menu!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  updateMenuCategoryAppAvailability(menuId: ID!, input: UpdateAppAvailabilityInput!): Menu!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  deleteMenuCategory(id: ID!): MenuCategory
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_CATEGORIES
+  """
+  deleteMenuCategories(merchantId: ID, ids: [ID!]!): BatchPayload!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  createMenuItem(input: CreateMenuItemInput!): MenuItem!
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  createMenuItems(merchantId: ID, input: [CreateMenuItemsInput!]!): [MenuItem!]!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  updateMenuItem(id: ID!, input: UpdateMenuItemInput!): MenuItem
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  updateMenuCategoryItemAppAvailability(menuCategoryId: ID!, input: UpdateAppAvailabilityInput!): MenuCategory!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  updateMenuItems(input: UpdateMenuItemsInput!): [MenuItem!]!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  deleteMenuItem(id: ID!): MenuItem
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  deleteMenuItems(merchantId: ID, ids: [ID!]!): BatchPayload!
+
+  addMerchantToMultimerchant(merchantId: ID!): MultimerchantMerchant!
+
+  createMerchant(input: CreateMerchantInput!): Merchant!
+
+  deleteMerchant(id: ID!): Merchant
+
+  disconnectMerchant(id: ID!, deleteInventory: Boolean!, deleteTables: Boolean!): Merchant
+
+  """
+  id is required for admins
+  """
+  updateMerchant(id: ID, input: UpdateMerchantInput!): Merchant!
+
+  createMerchantBillingRule(input: CreateMerchantBillingRuleInput!): MerchantBillingRule!
+
+  updateMerchantBillingRule(id: ID!, input: UpdateMerchantBillingRuleInput!): MerchantBillingRule
+
+  deleteMerchantBillingRule(id: ID!): MerchantBillingRule
+
+  convertMerchantToMultimerchant(id: ID!): Merchant
+
+  createMultimerchantGroup(input: CreateMultimerchantGroupInput!): MultimerchantGroup!
+
+  deleteMerchantFromMultimerchant(merchantId: ID!): MultimerchantMerchant!
+
+  deleteMultimerchantGroup(id: ID!): MultimerchantGroup!
+
+  updateMerchantsOrderInMultimerchantGroup(id: ID!, input: [UpdateMerchantsOrderInMultimerchantGroupInput!]!): MultimerchantGroup!
+
+  updateMultimerchantGroup(id: ID!, input: UpdateMultimerchantGroupInput!): MultimerchantGroup!
+
+  """
+  merchantId is required for admins
+  """
+  updateMerchantConfiguration(merchantId: ID, input: UpdateMerchantConfigurationInput!): MerchantConfiguration!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  createModifier(input: CreateModifierInput!): Modifier
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  createModifiers(merchantId: ID, input: [CreateModifiersInput!]!): [Modifier!]!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  updateModifier(id: ID!, input: UpdateModifierInput!): Modifier
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  deleteModifier(id: ID!): Modifier
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  deleteModifiers(merchantId: ID, ids: [ID!]!): RemoveModifiersOutput!
+
+  """
+  Required permissions: INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+  """
+  updateModifierOption(id: ID!, input: UpdateModifierOptionInput!): ModifierOptions
+
+  acceptOrderDelivery(id: ID!): Order!
+
+  createOrder(input: CreateOrderInput!): Order!
+
+  createOrderPos(input: CreateOrderPosInput!): Order!
+
+  updateOrder(id: ID!, merchantId: ID!, input: UpdateOrderInput!): Order
+
+  updateOrderPos(id: ID!, input: UpdateOrderPosInput!): Order
+
+  updateOrders(input: UpdateOrdersInput!): [Order]!
+
+  updateOrderEmployee(id: ID!, employeeId: ID!): Order
+
+  removeOrderTaxes(id: ID!): Order
+
+  restoreOrderTaxes(id: ID!): Order
+
+  voidOrderDelivery(id: ID!): Order!
+
+  updateOrderDeliveryStatus(deliveryId: String!, input: UpdateOrderDeliveryStatusInput!): Order
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_ORDER_TYPES
+  """
+  createOrderType(input: CreateOrderTypeInput!): OrderType!
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_ORDER_TYPES
+  """
+  updateOrderType(id: ID!, input: UpdateOrderTypeInput!): OrderType
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_ORDER_TYPES
+  """
+  deleteOrderType(id: ID!): OrderType
+
+  refundOrderCheckItems(orderId: ID!, orderCheckId: ID!, paymentTransactionId: ID!, input: RefundOrderCheckItemsInput!): Order
+
+  voidOrdersCheckItems(input: [VoidOrdersCheckItemsInput!]!): [Order!]!
+
+  """
+  Required permissions: SETTINGS_VOID_ITEMS
+  """
+  voidOrderChecksItems(orderId: ID!, input: [VoidOrderCheckItemsInput!]!): Order
+
+  chargeOrderCheck(orderId: ID!, merchantId: ID!, input: ChargeOrderCheckInput): Order
+
+  closeOrderCheck(orderId: ID!, orderCheckId: ID!): Order
+
+  confirmGroupOrder(id: ID!, merchantId: ID!, input: ConfirmGroupOrderInput!): GroupOrder
+
+  createGroupOrder(input: CreateGroupOrderInput!): GroupOrder!
+
+  deleteGroupOrder(id: ID!, merchantId: ID!): GroupOrder
+
+  joinGroupOrder(id: ID!, merchantId: ID!): GroupOrder
+
+  leaveGroupOrder(id: ID!, merchantId: ID!, consumerId: ID): GroupOrder
+
+  updateGroupOrder(id: ID!, merchantId: ID!, input: UpdateGroupOrderInput!): GroupOrder
+
+  """
+  Required permissions: SETTINGS_ORDER_THROTTLING
+  """
+  createOrderThrottlingRule(input: CreateOrderThrottlingRuleInput!): OrderThrottlingRule
+
+  """
+  Required permissions: SETTINGS_ORDER_THROTTLING
+  """
+  deleteOrderThrottlingRule(id: ID!): OrderThrottlingRule
+
+  """
+  Required permissions: SETTINGS_ORDER_THROTTLING
+  """
+  updateOrderThrottlingRule(id: ID!, input: UpdateOrderThrottlingRuleInput!): OrderThrottlingRule
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_VOIDS
+  """
+  createOrderVoid(name: String!): OrderVoid!
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_VOIDS
+  """
+  updateOrderVoid(id: ID!, name: String!): OrderVoid
+
+  """
+  Required permissions: SETTINGS_CREATE_EDIT_VOIDS
+  """
+  deleteOrderVoid(id: ID!): OrderVoid
+
+  adjustPaymentTransactionsTip(ids: [ID!]!): [PaymentTransaction!]
+
+  adjustPaymentTransactionTip(id: ID!, tip: Int!): PaymentTransaction
+
+  capturePosPaymentTransactions(merchantId: ID!): Boolean
+
+  chargeInvoice(id: ID!, billToMerchantId: ID!, merchantId: ID!): Boolean
+
+  createPaymentTransaction(input: CreatePaymentTransactionInput!): PaymentTransaction
+
+  refundPaymentTransaction(id: ID!): PaymentTransaction
+
+  retryFailedRefund(id: ID!): Boolean
+
+  syncTerminalTransactions(merchantId: ID!): Boolean
+
+  updatePaymentMerchantTransaction(transactionId: ID!, input: UpdatePaymentMerchantTransactionInput!): PaymentMerchantTransaction
+
+  updatePaymentTransaction(id: ID!, input: UpdatePaymentTransactionInput!): PaymentTransaction
+
+  addPayrixCustomerCard(merchantId: ID!, input: AddPayrixCustomerCardInput!): PayrixCard
+
+  addPayrixMerchantCustomerAch(input: AddPayrixMerchantCustomerAchInput!): PayrixAch
+
+  updatePayrixCustomerCard(merchantId: ID!, cardId: String!): [PayrixCard]
+
+  deletePayrixCustomerCard(cardId: String!): [PayrixCard]
+
+  createPayrixPayout(input: CreatePayrixPayoutInput!): PayrixPayout
+
+  updatePayrixPayout(payoutId: ID!, disbursementId: ID!, input: UpdatePayrixPayoutInput!): PayrixPayout
+
+  createPayrixTxnSessionKey(merchantId: String!): CreatePayrixTxnSessionKeyOutput!
+
+  createPayrixMerchant(input: CreatePayrixMerchantInput!): PayrixMerchant
+
+  createPayrixCustomer: PayrixCustomer
+
+  createPayrixMerchantCustomer: PayrixMerchantCustomer
+
+  updatePayrixMerchant(merchantId: ID!, payrixMerchantId: ID!, input: UpdatePayrixMerchantInput!): PayrixMerchant
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  createPos(input: CreatePosInput!): Pos!
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  updatePos(id: ID!, input: UpdatePosInput!): Pos
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  deletePos(id: ID!): Pos
+
+  createPrinters(input: [CreatePrintersInput!]!): [Printer!]!
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  createPrinter(input: CreatePrinterInput!): Printer!
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  updatePrinter(id: ID!, input: UpdatePrinterInput!): Printer
+
+  """
+  Required permissions: SETTINGS_HARDWARE
+  """
+  deletePrinter(id: ID!): Printer
+
+  createRevenueCenter(input: CreateRevenueCenterInput!): RevenueCenter!
+
+  updateRevenueCenter(id: ID!, input: UpdateRevenueCenterInput!): RevenueCenter
+
+  deleteRevenueCenter(id: ID!): RevenueCenter
+
+  updateSevenShiftsMerchant(input: UpdateSevenShiftsMerchantInput!): SevenShiftsMerchant
+
+  syncSevenShiftsMerchant(input: SyncUsersInput!): SevenShiftsMerchant
+
+  createTable(input: CreateTableInput!): Table!
+
+  updateTable(id: ID!, input: UpdateTableInput!): Table
+
+  updateTables(input: UpdateTablesInput!): [Table]
+
+  deleteTable(id: ID!): Table
+
+  createTableSection(input: CreateTableSectionInput!): TableSection!
+
+  updateTableSection(id: ID!, input: UpdateTableSectionInput!): TableSection
+
+  deleteTableSection(id: ID!): TableSection
+
+  createTax(input: CreateTaxInput!): Tax
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  createTaxes(merchantId: ID, input: [CreateTaxesInput!]!): [Tax!]!
+
+  updateTax(id: ID!, input: UpdateTaxInput!): Tax
+
+  deleteTax(id: ID!): Tax
+
+  """
+  Only LAMBDA needs to provide the merchantId
+  """
+  deleteTaxes(merchantId: ID, ids: [ID!]!): RemoveTaxesOutput!
+
+  clockIn(input: ClockInInput): TimeClock
+
+  clockOut(id: ID, input: ClockOutInput): TimeClock
+
+  startBreak(id: ID, input: StartBreakInput): TimeClock
+
+  endBreak(id: ID, input: EndBreakInput): TimeClock
+
+  updateTimeClock(id: ID!, input: TimeClockUpdateInput!): TimeClock
+
+  deleteTimeClock(id: ID!): TimeClock
+
+  sendConsumerSms(consumerIds: [ID!]!, message: String!): Boolean!
+
+  sendSmsVerification(to: String!): Boolean!
+
+  sendSmsVerificationCheck(to: String!, code: String!, fullName: String!, agreedWithTerms: Boolean!): ConsumerTokenOutput!
+
+  generateUberOAuthToken: Boolean
+
+  onboardUberMerchant: Merchant
+
+  createUberDeliveryQuote(input: CreateUberDeliveryQuoteInput!): UberDeliveryQuote
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_EMPLOYEES
+  """
+  addUserEmployee(input: AddUserEmployeeInput!): User
+
+  createUser(input: CreateUserInput!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_EMPLOYEES
+  """
+  createUserEmployee(input: CreateUserEmployeeInput!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_ROLES_PERMISSIONS
+  """
+  createUserPermissionsGroup(input: CreateUserPermissionsGroupInput!): UserPermissionsGroup
+
+  createUserTipsReport(input: CreateUserTipsReportInput!): UserTipsReport
+
+  deleteUser(id: ID!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_EMPLOYEES
+  """
+  deleteUserEmployee(id: ID!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_ROLES_PERMISSIONS
+  """
+  deleteUserPermissionsGroup(id: ID!): UserPermissionsGroup
+
+  deleteUserTipsReport(id: ID!): UserTipsReport
+
+  updateUser(id: ID!, input: UpdateUserInput!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_EMPLOYEES
+  """
+  updateUserEmployee(id: ID!, input: UpdateUserEmployeeInput!): User
+
+  """
+  Required permissions: EMPLOYEES_CREATE_EDIT_ROLES_PERMISSIONS
+  """
+  updateUserPermissionsGroup(id: ID!, input: UpdateUserPermissionsGroupInput!): UserPermissionsGroup
+}
+
+type Subscription {
+  _empty: String
+
+  entityChanged: EntityChange
+
+  orderCreated(kdsId: ID!): Order
+
+  orderUpdated(kdsId: ID): Order
+
+  groupOrderUpdated: GroupOrder
+}
+
+"""
+Banking account number is a string of 5 to 17 alphanumeric values for representing an generic account number
+"""
+scalar AccountNumber
+
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar BigInt
+
+"""
+The `Byte` scalar type represents byte value as a Buffer
+"""
+scalar Byte
+
+"""
+A country code as defined by ISO 3166-1 alpha-2
+"""
+scalar CountryCode
+
+"""
+A country name (short name) as defined by ISO 3166-1
+"""
+scalar CountryName
+
+"""
+A field whose value conforms to the standard cuid format as specified in https://github.com/ericelliott/cuid#broken-down
+"""
+scalar Cuid
+
+"""
+A field whose value conforms to the cuid2 format, as specified in https://github.com/paralleldrive/cuid2
+"""
+scalar Cuid2
+
+"""
+A field whose value is a Currency: https://en.wikipedia.org/wiki/ISO_4217.
+"""
+scalar Currency
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+"""
+A field whose value conforms to the standard DeweyDecimal format as specified by the OCLC https://www.oclc.org/content/dam/oclc/dewey/resources/summaries/deweysummaries.pdf
+"""
+scalar DeweyDecimal
+
+"""
+A field whose value conforms to the standard DID format as specified in did-core: https://www.w3.org/TR/did-core/.
+"""
+scalar DID
+
+"""
+    A string representing a duration conforming to the ISO8601 standard,
+    such as: P1W1DT13H23M34S
+    P is the duration designator (for period) placed at the start of the duration representation.
+    Y is the year designator that follows the value for the number of years.
+    M is the month designator that follows the value for the number of months.
+    W is the week designator that follows the value for the number of weeks.
+    D is the day designator that follows the value for the number of days.
+    T is the time designator that precedes the time components of the representation.
+    H is the hour designator that follows the value for the number of hours.
+    M is the minute designator that follows the value for the number of minutes.
+    S is the second designator that follows the value for the number of seconds.
+
+    Note the time designator, T, that precedes the time value.
+
+    Matches moment.js, Luxon and DateFns implementations
+    ,/. is valid for decimal places and +/- is a valid prefix
+  
+"""
+scalar Duration
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress
+
+"""
+A GeoJSON object as defined by RFC 7946: https://datatracker.ietf.org/doc/html/rfc7946
+"""
+scalar GeoJSON
+
+"""
+A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier.
+"""
+scalar GUID
+
+"""
+A field whose value is a hexadecimal: https://en.wikipedia.org/wiki/Hexadecimal.
+"""
+scalar Hexadecimal
+
+"""
+A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors.
+"""
+scalar HexColorCode
+
+"""
+A field whose value is a CSS HSL color: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl()_and_hsla().
+"""
+scalar HSL
+
+"""
+A field whose value is a CSS HSLA color: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl()_and_hsla().
+"""
+scalar HSLA
+
+"""
+A field whose value is an International Bank Account Number (IBAN): https://en.wikipedia.org/wiki/International_Bank_Account_Number.
+"""
+scalar IBAN
+
+"""
+A field whose value is either an IPv4 or IPv6 address: https://en.wikipedia.org/wiki/IP_address.
+"""
+scalar IP
+
+"""
+A field whose value is an IPC Class Symbol within the International Patent Classification System: https://www.wipo.int/classifications/ipc/en/
+"""
+scalar IPCPatent
+
+"""
+A field whose value is a IPv4 address: https://en.wikipedia.org/wiki/IPv4.
+"""
+scalar IPv4
+
+"""
+A field whose value is a IPv6 address: https://en.wikipedia.org/wiki/IPv6.
+"""
+scalar IPv6
+
+"""
+A field whose value is a ISBN-10 or ISBN-13 number: https://en.wikipedia.org/wiki/International_Standard_Book_Number.
+"""
+scalar ISBN
+
+"""
+    A string representing a duration conforming to the ISO8601 standard,
+    such as: P1W1DT13H23M34S
+    P is the duration designator (for period) placed at the start of the duration representation.
+    Y is the year designator that follows the value for the number of years.
+    M is the month designator that follows the value for the number of months.
+    W is the week designator that follows the value for the number of weeks.
+    D is the day designator that follows the value for the number of days.
+    T is the time designator that precedes the time components of the representation.
+    H is the hour designator that follows the value for the number of hours.
+    M is the minute designator that follows the value for the number of minutes.
+    S is the second designator that follows the value for the number of seconds.
+
+    Note the time designator, T, that precedes the time value.
+
+    Matches moment.js, Luxon and DateFns implementations
+    ,/. is valid for decimal places and +/- is a valid prefix
+  
+"""
+scalar ISO8601Duration
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
+"""
+A field whose value is a valid decimal degrees latitude number (53.471): https://en.wikipedia.org/wiki/Latitude
+"""
+scalar Latitude
+
+"""
+A field whose value conforms to the Library of Congress Subclass Format ttps://www.loc.gov/catdir/cpso/lcco/
+"""
+scalar LCCSubclass
+
+"""
+A local date string (i.e., with no associated timezone) in `YYYY-MM-DD` format, e.g. `2020-01-01`.
+"""
+scalar LocalDate
+
+"""
+A local date-time string (i.e., with no associated timezone) in `YYYY-MM-DDTHH:mm:ss` format, e.g. `2020-01-01T00:00:00`.
+"""
+scalar LocalDateTime
+
+"""
+The locale in the format of a BCP 47 (RFC 5646) standard string
+"""
+scalar Locale
+
+"""
+A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`.  This scalar is very similar to the `LocalTime`, with the only difference being that `LocalEndTime` also allows `24:00` as a valid value to indicate midnight of the following day.  This is useful when using the scalar to represent the exclusive upper bound of a time block.
+"""
+scalar LocalEndTime
+
+"""
+A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`.
+"""
+scalar LocalTime
+
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar Long
+
+"""
+A field whose value is a valid decimal degrees longitude number (53.471): https://en.wikipedia.org/wiki/Longitude
+"""
+scalar Longitude
+
+"""
+A field whose value is a IEEE 802 48-bit MAC address: https://en.wikipedia.org/wiki/MAC_address.
+"""
+scalar MAC
+
+"""
+Floats that will have a value less than 0.
+"""
+scalar NegativeFloat
+
+"""
+Integers that will have a value less than 0.
+"""
+scalar NegativeInt
+
+"""
+A string that cannot be passed as an empty value
+"""
+scalar NonEmptyString
+
+"""
+Floats that will have a value of 0 or more.
+"""
+scalar NonNegativeFloat
+
+"""
+Integers that will have a value of 0 or more.
+"""
+scalar NonNegativeInt
+
+"""
+Floats that will have a value of 0 or less.
+"""
+scalar NonPositiveFloat
+
+"""
+Integers that will have a value of 0 or less.
+"""
+scalar NonPositiveInt
+
+"""
+A field whose value conforms with the standard mongodb object ID as described here: https://docs.mongodb.com/manual/reference/method/ObjectId/#ObjectId. Example: 5e5677d71bdc2ae76344968c
+"""
+scalar ObjectID
+
+"""
+A field whose value conforms to the standard E.164 format as specified in: https://en.wikipedia.org/wiki/E.164. Basically this is +17895551234.
+"""
+scalar PhoneNumber
+
+"""
+A field whose value is a valid TCP port within the range of 0 to 65535: https://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_ports
+"""
+scalar Port
+
+"""
+Floats that will have a value greater than 0.
+"""
+scalar PositiveFloat
+
+"""
+Integers that will have a value greater than 0.
+"""
+scalar PositiveInt
+
+"""
+A field whose value conforms to the standard postal code formats for United States, United Kingdom, Germany, Canada, France, Italy, Australia, Netherlands, Spain, Denmark, Sweden, Belgium, India, Austria, Portugal, Switzerland or Luxembourg.
+"""
+scalar PostalCode
+
+"""
+A field whose value is a CSS RGB color: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba().
+"""
+scalar RGB
+
+"""
+A field whose value is a CSS RGBA color: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba().
+"""
+scalar RGBA
+
+"""
+In the US, an ABA routing transit number (`ABA RTN`) is a nine-digit code to identify the financial institution.
+"""
+scalar RoutingNumber
+
+"""
+The `SafeInt` scalar type represents non-fractional signed whole numeric values that are considered safe as defined by the ECMAScript specification.
+"""
+scalar SafeInt
+
+"""
+A field whose value is a Semantic Version: https://semver.org
+"""
+scalar SemVer
+
+"""
+A field whose value conforms to the standard personal number (personnummer) formats for Sweden
+"""
+scalar SESSN
+
+"""
+A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Time
+
+"""
+The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+"""
+A field whose value exists in the standard IANA Time Zone Database: https://www.iana.org/time-zones
+"""
+scalar TimeZone
+
+"""
+A ULID (Universally Unique Lexicographically Sortable Identifier) is a 26-character string that is URL-safe, case-insensitive, and lexicographically sortable.
+"""
+scalar ULID
+
+"""
+Floats that will have a value of 0 or more.
+"""
+scalar UnsignedFloat
+
+"""
+Integers that will have a value of 0 or more.
+"""
+scalar UnsignedInt
+
+"""
+A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+"""
+scalar URL
+
+"""
+A currency string, such as $21.25
+"""
+scalar USCurrency
+
+"""
+A field whose value is a UTC Offset: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+"""
+scalar UtcOffset
+
+"""
+A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier.
+"""
+scalar UUID
+
+"""
+Represents NULL values
+"""
+scalar Void
+
+enum USER_TYPE {
+  ADMIN
+
+  USER
+
+  CONSUMER
+
+  LAMBDA
+
+  ANONYMOUS
+}
+
+enum USER_ROLE {
+  ADMIN
+
+  SUPER_ADMIN
+
+  USER_OWNER
+
+  USER_EMPLOYEE
+
+  USER_RESELLER
+
+  USER_ADMIN
+
+  CONSUMER
+}
+
+enum AdminRoles {
+  admin
+
+  superAdmin
+}
+
+type Admin {
+  id: ID!
+
+  firstName: String!
+
+  lastName: String!
+
+  email: EmailAddress!
+
+  role: AdminRoles!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateAdminInput {
+  firstName: NonEmptyString!
+
+  lastName: NonEmptyString!
+
+  email: EmailAddress!
+
+  password: String!
+}
+
+input UpdateAdminInput {
+  firstName: NonEmptyString
+
+  lastName: NonEmptyString
+}
+
+type AdminsOutput {
+  items: [Admin!]!
+
+  count: Int!
+}
+
+enum EntityChangeEnum {
+  CASH_DISCOUNT_INVENTORY_UPDATE
+
+  CREATE_DISCOUNT
+
+  CREATE_DYNAMIC_PRICE
+
+  DELETE_DISCOUNT
+
+  DELETE_DYNAMIC_PRICE
+
+  UPDATE_DISCOUNT
+
+  UPDATE_DYNAMIC_PRICE
+
+  CREATE_MENU
+
+  CREATE_MENU_CATEGORY
+
+  CREATE_MENU_ITEM
+
+  DELETE_MENU
+
+  DELETE_MENU_CATEGORY
+
+  DELETE_MENU_ITEM
+
+  UPDATE_MENU
+
+  UPDATE_MENUS
+
+  UPDATE_MENU_CATEGORIES
+
+  UPDATE_MENU_CATEGORY
+
+  UPDATE_MENU_CATEGORY_APP_AVAILABILITY
+
+  UPDATE_MENU_CATEGORY_ITEM_APP_AVAILABILITY
+
+  UPDATE_MENU_ITEM
+
+  UPDATE_MENU_ITEMS
+
+  UPDATE_MERCHANT
+
+  UPDATE_MERCHANT_CONFIGURATION
+
+  CREATE_MODIFIER
+
+  UPDATE_MODIFIER
+
+  DELETE_MODIFIER
+
+  UPDATE_MODIFIER_OPTION
+
+  CREATE_ORDER
+
+  UPDATE_ORDER
+
+  UPDATE_ORDERS
+
+  CREATE_ORDER_CHECK
+
+  UPDATE_ORDER_CHECK
+
+  CREATE_ORDER_THROTTLING_RULE
+
+  DELETE_ORDER_THROTTLING_RULE
+
+  UPDATE_ORDER_THROTTLING_RULE
+
+  CREATE_ORDER_VOID
+
+  DELETE_ORDER_VOID
+
+  UPDATE_ORDER_VOID
+
+  CREATE_ORDER_TYPE
+
+  DELETE_ORDER_TYPE
+
+  UPDATE_ORDER_TYPE
+
+  CREATE_PAYMENT_TRANSACTION
+
+  REFUND_PAYMENT_TRANSACTION
+
+  UPDATE_PAYMENT_TRANSACTION
+
+  UPDATE_PAYMENT_TRANSACTIONS
+
+  CREATE_POS
+
+  UPDATE_POS
+
+  DELETE_POS
+
+  CREATE_PRINTERS
+
+  CREATE_PRINTER
+
+  UPDATE_PRINTER
+
+  DELETE_PRINTER
+
+  CREATE_REVENUE_CENTER
+
+  UPDATE_REVENUE_CENTER
+
+  DELETE_REVENUE_CENTER
+
+  CREATE_TABLE
+
+  CREATE_TABLE_SECTION
+
+  DELETE_TABLE
+
+  DELETE_TABLE_SECTION
+
+  UPDATE_TABLE
+
+  UPDATE_TABLE_SECTION
+
+  UPDATE_TABLES
+
+  CREATE_KDS
+
+  DELETE_KDS
+
+  UPDATE_KDS
+
+  UPDATE_KDS_MESSAGES
+
+  CREATE_TAX
+
+  UPDATE_TAX
+
+  DELETE_TAX
+
+  CREATE_TIME_CLOCK
+
+  UPDATE_TIME_CLOCK
+
+  DELETE_TIME_CLOCK
+
+  CREATE_USER_EMPLOYEE
+
+  CREATE_USER_PERMISSIONS_GROUP
+
+  DELETE_USER_EMPLOYEE
+
+  DELETE_USER_PERMISSIONS_GROUP
+
+  UPDATE_USER_EMPLOYEE
+
+  UPDATE_USER_PERMISSIONS_GROUP
+
+  BULK_UPDATE_INVENTORY
+
+  BULK_UPDATE_TABLES
+
+  BULK_UPDATE_ORDERS
+}
+
+union EntityChangeData = Discount|DynamicPrice|Menu|MenuCategory|MenuItem|Merchant|MerchantConfiguration|Modifier|ModifierOptions|Order|OrderVoid|OrderThrottlingRule|OrderType|PaymentTransaction|Printer|Pos|RevenueCenter|Table|TableSection|Kds|KdsMessage|Tax|TimeClock|User|UserPermissionsGroup
+
+type EntityChange {
+  data: [EntityChangeData!]!
+
+  originDeviceId: String
+
+  merchantId: String!
+
+  type: EntityChangeEnum!
+}
+
+enum AppType {
+  KDS
+
+  KIOSK
+
+  CONSUMER
+
+  ONLINE
+
+  POS
+}
+
+enum PaymentProviders {
+  CLOVER
+
+  PAYRIX
+}
+
+enum AuthAppType {
+  REPORTING
+
+  ADMIN
+
+  KDS
+
+  POS
+}
+
+input AuthUpdatePasswordInput {
+  currentPassword: String!
+
+  newPassword: String!
+}
+
+input AuthForgotPasswordInput {
+  email: EmailAddress!
+
+  redirect: String!
+}
+
+input AuthResetPasswordInput {
+  password: String!
+
+  resetCode: String!
+}
+
+input AuthSignInInput {
+  email: EmailAddress!
+
+  password: String!
+}
+
+input AuthSignUpInput {
+  email: EmailAddress!
+
+  password: String!
+
+  fullName: String
+
+  phone: String
+}
+
+type UserTokenOutput {
+  user: User!
+
+  token: String!
+
+  refreshToken: String!
+
+  sessionId: ID!
+}
+
+type UserPinOutOutput {
+  token: String!
+
+  refreshToken: String!
+
+  sessionId: ID!
+}
+
+type AdminTokenOutput {
+  admin: Admin!
+
+  token: String!
+
+  refreshToken: String!
+
+  sessionId: ID!
+}
+
+type RefreshTokenOutput {
+  token: String!
+
+  refreshToken: String!
+
+  sessionId: ID!
+}
+
+type CloverMerchant {
+  cloverMerchantId: String!
+
+  createdAt: DateTime!
+
+  employeeId: String!
+
+  id: ID!
+
+  merchantId: ID!
+
+  updatedAt: DateTime!
+
+  usePosPrinting: Boolean!
+
+  usePrivateApp: Boolean!
+
+  merchant: Merchant!
+}
+
+type CloverCustomerCard {
+  expMonth: Int!
+
+  expYear: Int!
+
+  first6: Int!
+
+  last4: Int!
+
+  type: String!
+}
+
+type CloverCustomer {
+  card: CloverCustomerCard
+
+  cloverMerchantId: ID!
+
+  consumerId: ID!
+
+  createdAt: DateTime!
+
+  customerId: ID!
+
+  id: ID!
+
+  merchantId: ID!
+
+  updatedAt: DateTime!
+}
+
+type ImportCloverMerchantCategoriesOutput {
+  deleted: Boolean!
+
+  id: ID!
+
+  name: String!
+
+  sortOrder: String
+}
+
+type ImportCloverMerchantTaxesOutput {
+  id: ID!
+
+  isDefault: Boolean!
+
+  name: String!
+
+  rate: Int!
+
+  taxAmount: Int
+}
+
+type ImportCloverMerchantModifierGroupsItemElementModifierGroupOutput {
+  id: ID!
+}
+
+type ImportCloverMerchantModifierGroupsItemElementOutput {
+  available: Boolean
+
+  deleted: Boolean!
+
+  id: ID!
+
+  modifiedTime: Timestamp!
+
+  modifierGroup: ImportCloverMerchantModifierGroupsItemElementModifierGroupOutput
+
+  name: String!
+
+  price: Int!
+}
+
+type ImportCloverMerchantModifierGroupsItemOutput {
+  elements: [ImportCloverMerchantModifierGroupsItemElementOutput!]
+}
+
+type ImportCloverMerchantModifierGroupsOutput {
+  deleted: Boolean!
+
+  id: ID!
+
+  modifierIds: String
+
+  modifiers: ImportCloverMerchantModifierGroupsItemOutput
+
+  name: String!
+
+  showByDefault: Boolean!
+
+  sortOrder: Int
+
+  minRequired: Int
+
+  maxAllowed: Int
+}
+
+type ImportCloverMerchantItemsTaxRatesItemElementOutput {
+  id: ID!
+
+  isDefault: Boolean!
+
+  name: String!
+
+  rate: Int!
+
+  taxAmount: Int
+}
+
+type ImportCloverMerchantItemsTaxRatesItemOutput {
+  elements: [ImportCloverMerchantItemsTaxRatesItemElementOutput!]
+}
+
+type ImportCloverMerchantItemsModifierGroupsItemElementOutput {
+  deleted: Boolean!
+
+  id: ID!
+
+  modifierIds: String
+
+  name: String!
+
+  showByDefault: Boolean!
+
+  sortOrder: Int
+}
+
+type ImportCloverMerchantItemsModifierGroupsItemOutput {
+  elements: [ImportCloverMerchantItemsModifierGroupsItemElementOutput!]
+}
+
+type ImportCloverMerchantItemsCategoriesItemElementOutput {
+  deleted: Boolean!
+
+  id: ID!
+
+  name: String!
+
+  sortOrder: Int
+}
+
+type ImportCloverMerchantItemsCategoriesItemOutput {
+  elements: [ImportCloverMerchantItemsCategoriesItemElementOutput!]
+}
+
+type ImportCloverMerchantItemsOutput {
+  autoManage: Boolean!
+
+  available: Boolean
+
+  categories: ImportCloverMerchantItemsCategoriesItemOutput
+
+  cost: Int
+
+  defaultTaxRates: Boolean!
+
+  deleted: Boolean!
+
+  hidden: Boolean!
+
+  id: ID!
+
+  isRevenue: Boolean!
+
+  modifiedTime: Timestamp!
+
+  modifierGroups: ImportCloverMerchantItemsModifierGroupsItemOutput
+
+  name: String!
+
+  price: Int!
+
+  priceType: String!
+
+  taxRates: ImportCloverMerchantItemsTaxRatesItemOutput
+}
+
+input CreateCloverMerchantInput {
+  cloverMerchantId: String!
+
+  code: String!
+
+  employeeId: String!
+
+  usePrivateApp: Boolean!
+}
+
+input CreateCloverCustomerCardDataInput {
+  expMonth: String!
+
+  expYear: String!
+
+  first6: String!
+
+  last4: String!
+
+  token: String!
+
+  type: String!
+}
+
+input CreateCloverCustomerCardInput {
+  card: CreateCloverCustomerCardDataInput!
+
+  consumerName: String!
+
+  email: EmailAddress!
+}
+
+input UpdateCloverCustomerCardDataInput {
+  expMonth: String!
+
+  expYear: String!
+
+  first6: String!
+
+  last4: String!
+
+  token: String!
+
+  type: String!
+}
+
+input UpdateCloverCustomerCardInput {
+  card: UpdateCloverCustomerCardDataInput!
+
+  email: EmailAddress!
+}
+
+type CloverMerchantsOutput {
+  items: [CloverMerchant!]!
+
+  count: Int!
+}
+
+enum ConsumerRoles {
+  consumer
+}
+
+enum LocationType {
+  HOUSE
+
+  APARTMENT
+
+  OFFICE
+
+  OTHER
+}
+
+type Consumer {
+  id: ID!
+
+  phone: String!
+
+  fullName: String
+
+  email: String
+
+  role: ConsumerRoles!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+
+  agreedWithTerms: Boolean!
+
+  dateOfBirth: DateTime
+
+  addresses: [ConsumerAddress!]
+}
+
+type ConsumerAddress {
+  id: ID!
+
+  consumerId: ID!
+
+  isDefault: Boolean!
+
+  locationType: LocationType!
+
+  fullAddress: NonEmptyString!
+
+  street: String!
+
+  city: String!
+
+  country: String!
+
+  postalCode: String!
+
+  floor: String
+
+  apartment: String
+
+  specialInstructions: String
+
+  lat: Latitude!
+
+  lng: Longitude!
+
+  consumer: Consumer!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input ConsumerUpdateInput {
+  fullName: String
+
+  email: EmailAddress
+
+  dateOfBirth: DateTime
+}
+
+input CreateConsumerAddressInput {
+  locationType: LocationType!
+
+  placeId: NonEmptyString!
+
+  floor: String
+
+  apartment: String
+
+  specialInstructions: String
+}
+
+input UpdateConsumerAddressInput {
+  isDefault: Boolean
+
+  locationType: LocationType
+
+  placeId: NonEmptyString
+
+  floor: String
+
+  apartment: String
+
+  specialInstructions: String
+}
+
+enum DiscountType {
+  OPEN_AMOUNT_OFF
+
+  OPEN_PERCENTAGE_OFF
+
+  FIXED_AMOUNT_OFF
+
+  FIXED_PERCENTAGE_OFF
+}
+
+enum DynamicPriceType {
+  INCREASED_AMOUNT
+
+  INCREASED_PERCENTAGE
+
+  DECREASED_AMOUNT
+
+  DECREASED_PERCENTAGE
+}
+
+type Discount {
+  id: ID!
+
+  name: String!
+
+  type: DiscountType!
+
+  enabled: Boolean!
+
+  amount: Float
+
+  minimumAmount: Int
+
+  promoCode: String
+
+  isSingleUse: Boolean!
+
+  startDate: DateTime
+
+  endDate: DateTime
+
+  enabledForApps: [AppType!]!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type DynamicPrice {
+  id: ID!
+
+  name: String!
+
+  amount: Float!
+
+  type: DynamicPriceType!
+
+  enabledForApps: [AppType!]!
+
+  workingHours: MenuWorkingHours!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  enabled: Boolean!
+
+  menuItems: [MenuItem!]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateDynamicPriceInput {
+  name: String!
+
+  amount: Float!
+
+  enabled: Boolean!
+
+  type: DynamicPriceType!
+
+  enabledForApps: [AppType!]!
+
+  workingHours: MenuWorkingHoursInput!
+
+  menuItemIds: [ID!]!
+}
+
+input UpdateDynamicPriceInput {
+  name: String
+
+  amount: Float
+
+  enabled: Boolean
+
+  type: DynamicPriceType
+
+  enabledForApps: [AppType!]
+
+  workingHours: MenuWorkingHoursInput
+
+  menuItemIds: [ID!]
+}
+
+input CashDiscountInventoryUpdateInput {
+  cashDiscountEnabled: Boolean!
+
+  cashDiscountAmount: Float!
+
+  cashDiscountRounding: MerchantCashDiscountRoundType!
+}
+
+input CreateDiscountInput {
+  name: String!
+
+  type: DiscountType!
+
+  enabled: Boolean
+
+  amount: Float!
+
+  minimumAmount: Int
+
+  promoCode: String
+
+  isSingleUse: Boolean!
+
+  startDate: DateTime
+
+  endDate: DateTime
+
+  enabledForApps: [AppType!]!
+}
+
+input UpdateDiscountInput {
+  name: String
+
+  type: DiscountType
+
+  enabled: Boolean
+
+  amount: Float
+
+  minimumAmount: Int
+
+  promoCode: String
+
+  isSingleUse: Boolean
+
+  startDate: DateTime
+
+  endDate: DateTime
+
+  enabledForApps: [AppType!]
+}
+
+type DiscountsOutput {
+  items: [Discount!]!
+
+  count: Int!
+}
+
+type DynamicPricesOutput {
+  items: [DynamicPrice!]!
+
+  count: Int!
+}
+
+type DeliveryQuote {
+  externalDeliveryId: ID!
+
+  dropoffTimeEstimated: String!
+
+  fee: Int!
+
+  deliveryStatus: OrderDeliveryStatuses
+
+  feeComponents: [FeeComponent!]
+
+  currency: String!
+
+  pickupTimeEstimated: String!
+
+  tip: Int
+
+  supportReference: String
+
+  updatedAt: DateTime
+
+  pickupReferenceTag: String
+}
+
+type FeeComponent {
+  type: String!
+
+  amount: Int!
+}
+
+input CreateDoordashDeliveryQuoteInput {
+  merchantId: ID!
+
+  consumerAddressId: ID!
+
+  dropoffTime: DateTime
+
+  delayTime: Int
+
+  items: [DeliveryQuoteItemsInput!]!
+
+  orderValue: Int!
+
+  tip: Int!
+}
+
+input DeliveryQuoteItemsInput {
+  name: String!
+
+  quantity: Int!
+
+  price: Int!
+}
+
+type Drawer {
+  id: ID!
+
+  name: String!
+
+  posId: ID
+
+  merchantId: ID!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateDrawerInput {
+  name: String!
+
+  posId: ID
+}
+
+input UpdateDrawerInput {
+  name: String!
+
+  posId: ID
+}
+
+type DrawerOutput {
+  items: [Drawer!]!
+
+  count: Int!
+}
+
+input SendReceiptInput {
+  orderCheckId: String!
+
+  orderId: String!
+}
+
+enum KdsFontSizes {
+  SMALL
+
+  MEDIUM
+
+  LARGE
+}
+
+type Kds {
+  id: ID!
+
+  name: String!
+
+  batchingTime: Int!
+
+  main: Boolean!
+
+  inUse: Boolean!
+
+  tipReporting: Boolean!
+
+  fontSize: KdsFontSizes!
+
+  confirmationMessageEnabled: Boolean!
+
+  confirmationMessage: String!
+
+  rejectMessageEnabled: Boolean!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  printers: [Printer]!
+
+  kdsMessages: [KdsMessage!]
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type KdsMessage {
+  id: ID!
+
+  tableOrderTypeId: ID!
+
+  messageEnabled: Boolean!
+
+  message: String!
+
+  kdsId: ID!
+
+  orderType: OrderType!
+}
+
+input CreateKdsInput {
+  name: String!
+
+  batchingTime: NonNegativeInt
+
+  main: Boolean
+
+  inUse: Boolean
+
+  tipReporting: Boolean
+
+  fontSize: KdsFontSizes
+
+  confirmationMessageEnabled: Boolean
+
+  confirmationMessage: String
+
+  rejectMessageEnabled: Boolean
+
+  printerIds: [ID!]
+}
+
+input UpdateKdsInput {
+  name: String
+
+  batchingTime: NonNegativeInt
+
+  main: Boolean
+
+  inUse: Boolean
+
+  tipReporting: Boolean
+
+  fontSize: KdsFontSizes
+
+  confirmationMessageEnabled: Boolean
+
+  confirmationMessage: String
+
+  rejectMessageEnabled: Boolean
+
+  printerIds: [ID!]
+
+  deletedPrinterIds: [ID!]
+}
+
+input UpdateKdsMessageInput {
+  id: ID!
+
+  message: String
+
+  messageEnabled: Boolean
+}
+
+type KdsesOutput {
+  items: [Kds]!
+
+  count: Int!
+}
+
+enum GoogleResponseStatus {
+  OK
+
+  ZERO_RESULTS
+
+  INVALID_REQUEST
+
+  OVER_QUERY_LIMIT
+
+  REQUEST_DENIED
+
+  UNKNOWN_ERROR
+}
+
+type GooglePlacesOutput {
+  predictions: [PredictionOutput]
+
+  status: GoogleResponseStatus!
+}
+
+type PredictionOutput {
+  description: String!
+
+  placeId: String!
+}
+
+input CreateLogInput {
+  application: AppType!
+
+  message: String!
+}
+
+type Log {
+  id: String!
+
+  application: AppType!
+
+  merchantId: ID!
+
+  message: String!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type LogsOutput {
+  count: Int!
+
+  items: [Log!]!
+}
+
+type Modifier {
+  """
+  Available only on menu item 
+  """
+  order: NonNegativeInt!
+
+  id: ID!
+
+  externalId: ID
+
+  externalName: String
+
+  enabled: Boolean!
+
+  name: String!
+
+  maxChoice: Int!
+
+  minChoice: Int!
+
+  options: [ModifierOptions]!
+
+  merchant: Merchant!
+
+  menuItems: [MenuItem]!
+
+  merchantId: ID!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type MenuWorkingHour {
+  from: String!
+
+  to: String!
+}
+
+type MenuWorkingHours {
+  monday: [MenuWorkingHour!]!
+
+  tuesday: [MenuWorkingHour!]!
+
+  wednesday: [MenuWorkingHour!]!
+
+  thursday: [MenuWorkingHour!]!
+
+  friday: [MenuWorkingHour!]!
+
+  saturday: [MenuWorkingHour!]!
+
+  sunday: [MenuWorkingHour!]!
+}
+
+type Menu {
+  categories(filter: MenuCategoriesFilter): [MenuCategory!]!
+
+  createdAt: DateTime!
+
+  enabled: Boolean!
+
+  enabledForApps: [AppType!]!
+
+  id: ID!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  name: String!
+
+  order: NonNegativeInt!
+
+  tables: [Table!]!
+
+  updatedAt: DateTime!
+
+  workingHours: MenuWorkingHours!
+}
+
+type MenuCategory {
+  createdAt: DateTime!
+
+  enabled: Boolean!
+
+  """
+  Available only on menu 
+  """
+  enabledForApps: [AppType!]!
+
+  externalId: ID
+
+  externalName: String
+
+  id: ID!
+
+  menuItems(filter: MenuCategoryMenuItemsFilter): [MenuItem!]!
+
+  menus: [Menu!]!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  name: String!
+
+  """
+  Available only on menu 
+  """
+  order: NonNegativeInt!
+
+  updatedAt: DateTime!
+}
+
+type MenuItemPriceTiered {
+  cashDiscount: NonNegativeInt
+
+  chitName: String!
+
+  default: Boolean!
+
+  id: ID
+
+  name: String!
+
+  price: NonNegativeInt!
+}
+
+type MenuItem {
+  cashDiscount: NonNegativeInt!
+
+  categories: [MenuCategory!]!
+
+  chitName: String!
+
+  createdAt: DateTime!
+
+  description: String
+
+  dynamicPrices: [DynamicPrice!]!
+
+  enabled: Boolean!
+
+  """
+  Available only on category 
+  """
+  enabledForApps: [AppType!]!
+
+  externalId: ID
+
+  externalName: String
+
+  id: ID!
+
+  imageUrl: String
+
+  kdses: [Kds!]!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  modifiers: [Modifier!]!
+
+  name: String!
+
+  prepTime: NonNegativeInt
+
+  price: NonNegativeInt
+
+  priceTiered: [MenuItemPriceTiered]
+
+  revenueCenter: RevenueCenter
+
+  revenueCenterId: ID
+
+  """
+  Available only on menu category
+  """
+  order: NonNegativeInt!
+
+  printers: [Printer!]!
+
+  stockCount: Int!
+
+  taxes: [Tax!]!
+
+  updatedAt: DateTime!
+}
+
+input UpdateAppAvailabilityInput {
+  id: ID!
+
+  enabledForApps: [AppType!]!
+}
+
+input MenuWorkingHourInput {
+  from: String!
+
+  to: String!
+}
+
+input MenuWorkingHoursInput {
+  monday: [MenuWorkingHourInput!]
+
+  tuesday: [MenuWorkingHourInput!]
+
+  wednesday: [MenuWorkingHourInput!]
+
+  thursday: [MenuWorkingHourInput!]
+
+  friday: [MenuWorkingHourInput!]
+
+  saturday: [MenuWorkingHourInput!]
+
+  sunday: [MenuWorkingHourInput!]
+}
+
+input MenuCategoriesFilter {
+  enabledForApps: [AppType!]
+
+  isEnabled: Boolean
+}
+
+input CreateMenuInput {
+  name: String!
+
+  enabled: Boolean
+
+  categoryIds: [ID!]
+
+  workingHours: MenuWorkingHoursInput
+}
+
+input UpdateMenuInput {
+  name: String
+
+  enabled: Boolean
+
+  categoryIds: [ID!]
+
+  deletedCategoryIds: [ID!]
+
+  workingHours: MenuWorkingHoursInput
+
+  enabledForApps: [AppType!]
+}
+
+input UpdateMenuOrderInput {
+  id: ID!
+
+  order: NonNegativeInt!
+}
+
+input MenuCategoryMenuItemsFilter {
+  enabledForApps: [AppType!]
+
+  isEnabled: Boolean
+}
+
+input MenuCategoryMenuItemInput {
+  id: ID!
+
+  order: NonNegativeInt!
+}
+
+input CreateMenuCategoryInput {
+  items: [MenuCategoryMenuItemInput!]
+
+  menuIds: [ID!]
+
+  name: String!
+}
+
+input UpdateMenuCategoryInput {
+  deletedItemIds: [ID!]
+
+  deletedMenuIds: [ID!]
+
+  enabled: Boolean
+
+  items: [MenuCategoryMenuItemInput!]
+
+  menuIds: [ID!]
+
+  name: String
+}
+
+input UpdateMenuCategoriesOrderInput {
+  id: ID!
+
+  order: NonNegativeInt!
+}
+
+input CreateMenuCategoriesInput {
+  categoryId: ID
+
+  deletedMenuIds: [ID]
+
+  externalId: ID
+
+  externalName: String
+
+  menuIds: [ID]
+
+  name: String!
+}
+
+input MenuItemPriceTieredInput {
+  chitName: String!
+
+  default: Boolean!
+
+  id: ID
+
+  name: String!
+
+  price: NonNegativeInt!
+}
+
+input CreateMenuItemInput {
+  categoryIds: [ID]
+
+  chitName: String!
+
+  description: String
+
+  imageData: String
+
+  kdsIds: [ID]
+
+  modifierIds: [ID]
+
+  name: String!
+
+  prepTime: NonNegativeInt
+
+  price: NonNegativeInt
+
+  priceTiered: [MenuItemPriceTieredInput!]
+
+  printerIds: [ID]
+
+  revenueCenterId: ID
+
+  stockCount: Int
+
+  taxIds: [ID]
+}
+
+input UpdateMenuItemInput {
+  categoryIds: [ID!]
+
+  chitName: String
+
+  deleteImageUrl: String
+
+  deletedCategoryIds: [ID!]
+
+  deletedKdsIds: [ID!]
+
+  deletedModifierIds: [ID!]
+
+  deletedPrinterIds: [ID!]
+
+  deletedTaxIds: [ID!]
+
+  description: String
+
+  enabled: Boolean
+
+  imageData: String
+
+  imageUrl: String
+
+  kdsIds: [ID!]
+
+  modifierIds: [ID!]
+
+  name: String
+
+  prepTime: NonNegativeInt
+
+  price: NonNegativeInt
+
+  priceTiered: [MenuItemPriceTieredInput!]
+
+  printerIds: [ID!]
+
+  revenueCenterId: ID
+
+  stockCount: Int
+
+  taxIds: [ID!]
+}
+
+input CreateMenuItemsInput {
+  categoryIds: [ID]!
+
+  chitName: String!
+
+  deletedCategoryIds: [ID]!
+
+  deletedModifierIds: [ID]!
+
+  deletedTaxIds: [ID]!
+
+  enabled: Boolean
+
+  externalId: ID!
+
+  externalName: String!
+
+  menuItemId: ID
+
+  modifierIds: [ID]!
+
+  name: String!
+
+  price: NonNegativeInt!
+
+  taxIds: [ID]!
+}
+
+input UpdateMenuItemsInput {
+  categoryIds: [ID]
+
+  deletedCategoryIds: [ID]
+
+  deletedKdsIds: [ID]
+
+  deletedModifierIds: [ID]
+
+  deletedPrinterIds: [ID]
+
+  deletedTaxIds: [ID]
+
+  itemIds: [ID!]!
+
+  kdsIds: [ID]
+
+  modifierIds: [ID]
+
+  printerIds: [ID]
+
+  revenueCenterId: ID
+
+  taxIds: [ID]
+}
+
+type BatchPayload {
+  count: Int!
+}
+
+type MenusOutput {
+  count: Int!
+
+  items: [Menu!]!
+}
+
+type MenuCategoriesOutput {
+  count: Int!
+
+  items: [MenuCategory!]!
+}
+
+type MenuItemsOutput {
+  count: Int!
+
+  items: [MenuItem!]!
+}
+
+enum MerchantConfigPaymentMethod {
+  OPEN_TAB
+
+  PAY_NOW
+}
+
+enum MerchantCashDiscountRoundType {
+  NONE
+
+  POINT_ZERO_FIVE
+}
+
+enum MultimerchantGroupType {
+  DINE_IN
+
+  ONLINE
+}
+
+enum DeliveryProvider {
+  DOOR_DASH
+
+  NONE
+
+  UBER_EATS
+}
+
+enum MerchantPaymentMethod {
+  CLOVER
+
+  NONE
+
+  PAYRIX
+}
+
+enum MerchantPaymentMethodToShow {
+  CLOVER
+
+  PAYRIX
+}
+
+enum MerchantType {
+  MERCHANT
+
+  MULTIMERCHANT
+}
+
+enum MerchantBillingFrequency {
+  DAILY
+
+  WEEKLY
+
+  BI_WEEKLY
+
+  MONTHLY
+
+  YEARLY
+
+  PAYOUT
+}
+
+enum MerchantBillingType {
+  FIXED
+
+  PERCENTAGE
+}
+
+type MerchantSocial {
+  facebook: String
+
+  instagram: String
+
+  tiktok: String
+
+  twitter: String
+}
+
+type MerchantBranding {
+  buttonBgColor: String
+
+  buttonTextColor: String
+
+  coverBrightness: Int
+
+  coverUrl: String
+
+  logoUrl: String
+}
+
+type MerchantAddress {
+  city: String!
+
+  country: String!
+
+  createdAt: DateTime!
+
+  fullAddress: String!
+
+  id: String!
+
+  lat: Float!
+
+  lng: Float!
+
+  merchantId: String!
+
+  placeId: String!
+
+  postalCode: String!
+
+  specialInstructions: String
+
+  street: String!
+
+  streetNumber: String
+
+  updatedAt: DateTime!
+}
+
+type Merchant {
+  address: String
+
+  branding: MerchantBranding
+
+  billingRules: [MerchantBillingRule!]!
+
+  businessDescription: String
+
+  businessName: String!
+
+  clover: CloverMerchant
+
+  configuration: MerchantConfiguration!
+
+  createdAt: DateTime!
+
+  fee: Int
+
+  feeEnabled: Boolean!
+
+  groups: [MultimerchantGroup!]!
+
+  id: String!
+
+  isInMultimerchant: Boolean!
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  isInitiallySynced: Boolean!
+
+  merchantAddress: MerchantAddress
+
+  """
+  Available only in Multimerchant Group
+  """
+  merchantOrder: Int!
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  monthlySubscription: Int
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  monthlySubscriptionEnabled: Boolean!
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  owner: User!
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  ownerId: String!
+
+  paymentMethod: MerchantPaymentMethod!
+
+  """
+  Only ADMIN AND USER can see this field
+  """
+  paymentMethodToShow: MerchantPaymentMethodToShow!
+
+  payrix: PayrixMerchant
+
+  phone: String!
+
+  poses: [Pos!]!
+
+  social: MerchantSocial
+
+  tables(filter: MerchantTablesFilter): [Table!]!
+
+  taxes: [Tax!]!
+
+  type: MerchantType!
+
+  updatedAt: DateTime!
+
+  website: String
+
+  sevenShifts: SevenShiftsMerchant
+}
+
+type MerchantConfiguration {
+  batchCloseTime: String
+
+  cashDiscountAmount: Float!
+
+  cashDiscountEnabled: Boolean!
+
+  cashDiscountRounding: MerchantCashDiscountRoundType!
+
+  createdAt: DateTime!
+
+  currency: String
+
+  defaultPaymentMethod: MerchantConfigPaymentMethod!
+
+  deliveryEnabled: Boolean!
+
+  deliveryProvider: DeliveryProvider!
+
+  id: ID!
+
+  isOrderingAgeRestrictedConsumer: Boolean!
+
+  isOrderingAgeRestrictedOnline: Boolean!
+
+  isQuickAccessEnabled: Boolean!
+
+  isSelectingAllMenusEnabled: Boolean!
+
+  isStockCountEnabled: Boolean!
+
+  maximumScheduleTime: Int!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  minAuthAmount: Int!
+
+  noteEnabled: Boolean!
+
+  onlineOrderingEnabled: Boolean!
+
+  openTab: Boolean!
+
+  payNow: Boolean!
+
+  preparationTime: Int!
+
+  qrCodeOrderingEnabled: Boolean!
+
+  schedulingEnabled: Boolean!
+
+  specialInstructions: String
+
+  specialInstructionsEnabled: Boolean!
+
+  specialInstructionsRequired: Boolean!
+
+  timeToShowTicket: Int!
+
+  timezone: String
+
+  tip1: Int!
+
+  tip2: Int!
+
+  tip3: Int!
+
+  tip4: Int!
+
+  tipsEnabled: Boolean!
+
+  updatedAt: DateTime!
+}
+
+type MerchantBillingRule {
+  id: ID!
+
+  amount: Int!
+
+  billToMerchantId: ID!
+
+  description: String!
+
+  frequency: MerchantBillingFrequency!
+
+  merchantId: ID!
+
+  name: String!
+
+  startDate: DateTime!
+
+  type: MerchantBillingType!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type MerchantInMultimerchantGroup {
+  id: String!
+
+  merchantId: String!
+
+  multimerchantGroupId: String!
+
+  multimerchantId: String!
+}
+
+type MultimerchantMerchant {
+  id: ID!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  multimerchantId: ID!
+}
+
+type MultimerchantGroup {
+  id: ID!
+
+  merchants: [Merchant!]!
+
+  multimerchant: Merchant!
+
+  multimerchantId: ID!
+
+  name: String!
+
+  type: MultimerchantGroupType!
+}
+
+input MerchantTablesFilter {
+  multimerchantGroupId: ID
+}
+
+input CreateMerchantInput {
+  address: String
+
+  businessDescription: String
+
+  businessName: String!
+
+  """
+  Only ADMIN can set this field
+  """
+  fee: NonNegativeInt
+
+  """
+  Only ADMIN can set this field
+  """
+  feeEnabled: Boolean
+
+  """
+  Only ADMIN can set this field
+  """
+  monthlySubscription: NonNegativeInt
+
+  """
+  Only ADMIN can set this field
+  """
+  monthlySubscriptionEnabled: Boolean
+
+  """
+  Only ADMIN can set this field
+  """
+  ownerId: String
+
+  """
+  Only ADMIN can set this field
+  """
+  paymentMethodToShow: MerchantPaymentMethodToShow
+
+  phone: String!
+
+  placeId: NonEmptyString!
+
+  specialInstructions: String
+
+  website: String
+}
+
+input UpdateMerchantBranding {
+  buttonBgColor: String
+
+  buttonTextColor: String
+
+  coverBrightness: Int
+
+  coverData: String
+
+  coverUrl: String
+
+  deleteCoverImageUrl: String
+
+  deleteLogoImageUrl: String
+
+  logoData: String
+
+  logoUrl: String
+}
+
+input UpdateMerchantSocial {
+  facebook: String
+
+  instagram: String
+
+  tiktok: String
+
+  twitter: String
+}
+
+input UpdateMerchantInput {
+  address: String
+
+  branding: UpdateMerchantBranding
+
+  businessDescription: String
+
+  businessName: String
+
+  """
+  Only ADMIN can set this field
+  """
+  fee: NonNegativeInt
+
+  """
+  Only ADMIN can set this field
+  """
+  feeEnabled: Boolean
+
+  isInitiallySynced: Boolean
+
+  """
+  Only ADMIN can set this field
+  """
+  monthlySubscription: NonNegativeInt
+
+  """
+  Only ADMIN can set this field
+  """
+  monthlySubscriptionEnabled: Boolean
+
+  """
+  Only ADMIN can set this field
+  """
+  paymentMethodToShow: MerchantPaymentMethodToShow
+
+  phone: String
+
+  placeId: String
+
+  social: UpdateMerchantSocial
+
+  specialInstructions: String
+
+  """
+  Only ADMIN can set this field
+  """
+  usePosPrinting: Boolean
+
+  website: String
+}
+
+input CreateMerchantBillingRuleInput {
+  amount: NonNegativeInt!
+
+  description: NonEmptyString!
+
+  frequency: MerchantBillingFrequency!
+
+  merchantId: ID!
+
+  name: NonEmptyString!
+
+  startDate: DateTime!
+
+  type: MerchantBillingType!
+}
+
+input UpdateMerchantBillingRuleInput {
+  amount: NonNegativeInt
+
+  description: NonEmptyString
+
+  frequency: MerchantBillingFrequency
+
+  name: NonEmptyString
+
+  startDate: DateTime
+
+  type: MerchantBillingType
+}
+
+input UpdateMerchantConfigurationInput {
+  batchCloseTime: String
+
+  defaultPaymentMethod: MerchantConfigPaymentMethod
+
+  deliveryEnabled: Boolean
+
+  deliveryProvider: DeliveryProvider
+
+  isOrderingAgeRestrictedConsumer: Boolean
+
+  isOrderingAgeRestrictedOnline: Boolean
+
+  isQuickAccessEnabled: Boolean
+
+  isSelectingAllMenusEnabled: Boolean
+
+  isStockCountEnabled: Boolean
+
+  maximumScheduleTime: NonNegativeInt
+
+  minAuthAmount: Int
+
+  noteEnabled: Boolean
+
+  onlineOrderingEnabled: Boolean
+
+  openTab: Boolean
+
+  payNow: Boolean
+
+  preparationTime: Int
+
+  qrCodeOrderingEnabled: Boolean
+
+  schedulingEnabled: Boolean
+
+  specialInstructions: String
+
+  specialInstructionsEnabled: Boolean
+
+  specialInstructionsRequired: Boolean
+
+  timeToShowTicket: NonNegativeInt
+
+  tip1: Int
+
+  tip2: Int
+
+  tip3: Int
+
+  tip4: Int
+
+  tipsEnabled: Boolean
+}
+
+input MerchantsFilter {
+  paymentMethod: MerchantPaymentMethod
+
+  type: [MerchantType!]
+}
+
+input CreateMultimerchantGroupInput {
+  merchantIds: [ID!]!
+
+  name: String!
+
+  type: MultimerchantGroupType!
+}
+
+input UpdateMultimerchantGroupInput {
+  name: String!
+
+  merchants: [UpdateMerchantsOrderInMultimerchantGroupInput!]!
+}
+
+input UpdateMerchantsOrderInMultimerchantGroupInput {
+  merchantId: ID!
+
+  merchantOrder: Int!
+}
+
+type MerchantsOutput {
+  count: Int!
+
+  items: [Merchant!]!
+}
+
+type ModifierOptions {
+  id: ID!
+
+  name: String!
+
+  chitName: String!
+
+  price: Int!
+
+  cashDiscount: Int!
+
+  order: NonNegativeInt!
+
+  enabled: Boolean!
+
+  externalId: String
+
+  externalName: String
+}
+
+input CreateModifierOptionInput {
+  name: NonEmptyString!
+
+  chitName: NonEmptyString!
+
+  price: NonNegativeInt!
+
+  enabled: Boolean!
+
+  order: NonNegativeInt!
+}
+
+input CreateModifierInput {
+  name: NonEmptyString!
+
+  maxChoice: NonNegativeInt!
+
+  minChoice: NonNegativeInt!
+
+  options: [CreateModifierOptionInput!]!
+
+  itemIds: [ID!]
+
+  enabled: Boolean
+}
+
+input CreateModifiersOptionInput {
+  name: NonEmptyString!
+
+  chitName: NonEmptyString!
+
+  price: NonNegativeInt!
+
+  order: NonNegativeInt!
+
+  enabled: Boolean!
+
+  externalId: NonEmptyString!
+
+  externalName: NonEmptyString!
+}
+
+input CreateModifiersInput {
+  externalId: NonEmptyString!
+
+  externalName: String!
+
+  name: NonEmptyString!
+
+  maxChoice: NonNegativeInt!
+
+  minChoice: NonNegativeInt!
+
+  options: [CreateModifiersOptionInput!]!
+}
+
+input UpdateModifierOptionInput {
+  id: ID
+
+  name: NonEmptyString
+
+  chitName: NonEmptyString
+
+  price: NonNegativeInt
+
+  enabled: Boolean
+
+  order: NonNegativeInt
+
+  externalId: String
+
+  externalName: String
+}
+
+input UpdateModifierInput {
+  name: NonEmptyString
+
+  maxChoice: NonNegativeInt
+
+  minChoice: NonNegativeInt
+
+  options: [UpdateModifierOptionInput!]
+
+  itemIds: [ID!]
+
+  deletedItemIds: [ID!]
+
+  enabled: Boolean
+}
+
+type ModifiersOutput {
+  items: [Modifier]!
+
+  count: Int!
+}
+
+type RemoveModifiersOutput {
+  count: Int!
+}
+
+"""
+**Doordash delivery cancelation statuses:** [
+  "cancel_by_dispatch",
+  "cancel_by_merchant",
+  "cancel_by_order_placer",
+  "customer_requested_other",
+  "dasher_cannot_fulfill_other",
+  "dasher_not_responding",
+  "drive_order_picked_up_by_customer",
+  "duplicate_order",
+  "fraudulent_order",
+  "items_temp_unavailable",
+  "no_available_dashers",
+  "nontablet_protocol_issue",
+  "other",
+  "picked_up_by_other_dasher",
+  "store_cannot_fulfill_other",
+  "store_closed",
+  "test_order",
+  "too_busy",
+  "too_late",
+  "wrong_delivery_address",
+  "package_needs_redelivery",
+  "package_never_received",
+  "package_lost_at_facility",
+]
+
+**Uber delivery cancelation statuses:** [
+"CANNOT_ACCESS_CUSTOMER_LOCATION",
+"CANNOT_FIND_CUSTOMER_ADDRESS",
+"CUSTOMER_REJECTED_ORDER",
+"CUSTOMER_UNAVAILABLE",
+"COURIER_CANCEL",
+"MERCHANT_CANCEL",
+"UBER_CANCEL",
+]
+"""
+enum OrderDeliveryCancelationReasons {
+  CANNOT_ACCESS_CUSTOMER_LOCATION
+
+  CANNOT_FIND_CUSTOMER_ADDRESS
+
+  COURIER_CANCEL
+
+  CUSTOMER_REJECTED_ORDER
+
+  CUSTOMER_UNAVAILABLE
+
+  MERCHANT_CANCEL
+
+  UBER_CANCEL
+
+  cancel_by_dispatch
+
+  cancel_by_merchant
+
+  cancel_by_order_placer
+
+  customer_requested_other
+
+  dasher_cannot_fulfill_other
+
+  dasher_not_responding
+
+  drive_order_picked_up_by_customer
+
+  duplicate_order
+
+  fraudulent_order
+
+  items_temp_unavailable
+
+  no_available_dashers
+
+  nontablet_protocol_issue
+
+  other
+
+  package_lost_at_facility
+
+  package_needs_redelivery
+
+  package_never_received
+
+  picked_up_by_other_dasher
+
+  store_cannot_fulfill_other
+
+  store_closed
+
+  test_order
+
+  too_busy
+
+  too_late
+
+  wrong_delivery_address
+}
+
+"""
+**Doordash delivery statuses:** ['quote', 'created', 'confirmed', 'enroute_to_pickup', 'arrived_at_pickup', 'picked_up', 'enroute_to_dropoff', 'arrived_at_dropoff', 'delivered', 'enroute_to_return', 'arrived_at_return', 'returned', 'cancelled']
+
+**Uber delivery statuses:** ['pending', 'pickup', 'pickup_complete', 'dropoff', 'delivered', 'canceled', 'returned']
+"""
+enum OrderDeliveryStatuses {
+  arrived_at_dropoff
+
+  arrived_at_pickup
+
+  arrived_at_return
+
+  canceled
+
+  cancelled
+
+  confirmed
+
+  created
+
+  delivered
+
+  dropoff
+
+  enroute_to_dropoff
+
+  enroute_to_pickup
+
+  enroute_to_return
+
+  pending
+
+  picked_up
+
+  pickup
+
+  pickup_complete
+
+  quote
+
+  returned
+}
+
+enum OrderPaymentMethods {
+  CLOVER
+
+  PAYRIX
+}
+
+enum OrderStatuses {
+  OPEN
+
+  PARTIALLY_PAID
+
+  PAID
+
+  VOIDED
+
+  PARTIALLY_REFUNDED
+
+  REFUNDED
+}
+
+enum OrderDiscountTypes {
+  DISCOUNT
+
+  DYNAMIC_PRICE
+}
+
+type Order {
+  additionalInfo: OrderAdditionalInfo!
+
+  application: AppType!
+
+  checks: [OrderCheck!]!
+
+  consumerId: ID
+
+  consumerName: String
+
+  createdAt: DateTime!
+
+  deliveryInfo: OrderDeliveryInfo
+
+  employeeId: ID
+
+  employeeName: String
+
+  fee: Int!
+
+  id: ID!
+
+  isOpenTab: Boolean!
+
+  items: [OrderItem!]!
+
+  merchantId: ID!
+
+  multimerchantId: ID
+
+  posId: String
+
+  referenceId: String!
+
+  status: OrderStatuses
+
+  type: String!
+
+  updatedAt: DateTime!
+}
+
+type OrderAdditionalInfo {
+  scheduleAt: DateTime
+
+  specialInstructions: String
+}
+
+type OrderDeliveryInfo {
+  consumerAddressId: ID
+
+  deliveryCancelationReason: OrderDeliveryCancelationReasons
+
+  deliveryFee: Int
+
+  deliveryId: String
+
+  deliveryProvider: DeliveryProvider
+
+  deliveryQuoteId: String
+
+  deliveryStatus: OrderDeliveryStatuses
+
+  deliveryTip: Int
+
+  dropoffTime: DateTime
+
+  pickupTime: DateTime
+
+  referenceId: String
+
+  supportReference: String
+}
+
+type OrderType {
+  id: ID!
+
+  name: String!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  tables: [Table]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateOrderAdditionalInfoInput {
+  scheduleAt: DateTime
+
+  specialInstructions: String
+}
+
+input CreateOrderInput {
+  additionalInfo: CreateOrderAdditionalInfoInput
+
+  consumerAddressId: ID
+
+  deliveryFee: NonNegativeInt
+
+  deliveryQuoteId: String
+
+  discounts: [OrderCheckDiscountInput!]
+
+  isOpenTab: Boolean!
+
+  items: [OrderItemInput!]!
+
+  merchantId: ID!
+
+  multimerchantId: ID
+
+  tip: NonNegativeInt
+
+  transactionId: String
+
+  type: NonEmptyString!
+}
+
+input CreateOrderPosInput {
+  additionalInfo: CreateOrderAdditionalInfoInput
+
+  checks: [CreateOrderCheckInput!]!
+
+  consumerName: String!
+
+  createdAt: DateTime
+
+  employeeId: ID!
+
+  employeeName: NonEmptyString!
+
+  isOpenTab: Boolean!
+
+  items: [OrderItemInput!]!
+
+  merchantId: ID!
+
+  multimerchantId: ID
+
+  posId: NonEmptyString!
+
+  referenceId: String
+
+  type: NonEmptyString!
+
+  updatedAt: DateTime
+}
+
+input UpdateOrderAdditionalInfoInput {
+  specialInstructions: String
+}
+
+input UpdateOrderInput {
+  additionalInfo: UpdateOrderAdditionalInfoInput
+
+  items: [OrderItemInput!]!
+
+  tip: NonNegativeInt
+}
+
+input UpdateOrdersInput {
+  acceptedKdsId: ID!
+
+  itemIds: [ID!]!
+
+  orderIds: [ID!]!
+
+  status: OrderItemStatuses!
+}
+
+input UpdateOrderPosInput {
+  additionalInfo: UpdateOrderAdditionalInfoInput
+
+  checks: [UpdateOrderCheckInput!]!
+
+  consumerName: NonEmptyString
+
+  createdAt: DateTime
+
+  items: [OrderItemInput!]!
+
+  tip: NonNegativeInt
+
+  type: NonEmptyString
+
+  updatedAt: DateTime
+}
+
+input CreateOrderTypeInput {
+  name: NonEmptyString!
+}
+
+input UpdateOrderTypeInput {
+  name: NonEmptyString
+}
+
+input UpdateOrderDeliveryStatusInput {
+  deliveryCancelationReason: OrderDeliveryCancelationReasons
+
+  deliveryStatus: OrderDeliveryStatuses!
+
+  dropoffTime: String
+
+  pickupTime: String
+}
+
+type OrdersOutput {
+  count: Int!
+
+  items: [Order!]!
+}
+
+type OrdersSalesOverviewRevenueCenterOutput {
+  name: String!
+
+  netSale: Int!
+
+  grossSale: Int!
+}
+
+type OrdersSalesOverviewOutput {
+  cardPayments: Int!
+
+  cardRefunds: Int!
+
+  cardTips: Int!
+
+  cashPayments: Int!
+
+  cashRefunds: Int!
+
+  cashTips: Int!
+
+  date: String!
+
+  grossSale: Int!
+
+  netSale: Int!
+
+  ordersCount: Int!
+
+  revenueCenter: [OrdersSalesOverviewRevenueCenterOutput!]!
+
+  totalCollected: Int!
+
+  totalDiscounts: Int!
+
+  totalRefunds: Int!
+
+  totalTips: Int!
+}
+
+type OrdersSalesOverviewExtendedCashDepositsByPOSOutput {
+  name: String!
+
+  cashAdded: Int!
+
+  cashRefund: Int!
+
+  cashRemoved: Int!
+
+  cashSales: Int!
+
+  expectedDeposit: Int!
+
+  tipPayout: Int!
+}
+
+type OrdersSalesOverviewExtendedDiscountsOutput {
+  name: String!
+
+  amount: Int!
+
+  price: Int!
+}
+
+type OrdersSalesOverviewExtendedHouseReportOutput {
+  grossSales: Int!
+
+  netSales: Int!
+
+  totalCollected: Int!
+}
+
+type OrdersSalesOverviewExtendedSalesByOrderTypeOutput {
+  name: String!
+
+  grossSales: Int!
+
+  netSales: Int!
+}
+
+type OrdersSalesOverviewExtendedSalesByRevenueCenterOutput {
+  name: String!
+
+  grossSales: Int!
+
+  netSales: Int!
+}
+
+type OrdersSalesOverviewExtendedSalesByTenderTypesOutput {
+  cardAmountCollected: Int!
+
+  cardRefunds: Int!
+
+  cardSalesTotal: Int!
+
+  cardTransactions: Int!
+
+  cashAmountCollected: Int!
+
+  cashRefunds: Int!
+
+  cashSalesTotal: Int!
+
+  cashTransactions: Int!
+}
+
+type OrdersSalesOverviewExtendedTaxesOutput {
+  name: String!
+
+  price: Int!
+}
+
+type OrdersSalesOverviewExtendedTipsOutput {
+  cash: Int!
+
+  kioskCard: Int!
+
+  onlineCard: Int!
+
+  posCard: Int!
+}
+
+type OrdersSalesOverviewExtendedVoidsOutput {
+  name: String!
+
+  amount: Int!
+
+  price: Int!
+}
+
+type OrdersSalesOverviewExtendedLaborCostOutput {
+  total: Int!
+
+  percentage: Float!
+}
+
+type OrdersSalesOverviewExtendedOutput {
+  cashDepositsByPOS: [OrdersSalesOverviewExtendedCashDepositsByPOSOutput!]!
+
+  discounts: [OrdersSalesOverviewExtendedDiscountsOutput!]!
+
+  giftAndNonRevenues: Int!
+
+  houseReport: OrdersSalesOverviewExtendedHouseReportOutput!
+
+  laborCost: OrdersSalesOverviewExtendedLaborCostOutput!
+
+  salesByOrderType: [OrdersSalesOverviewExtendedSalesByOrderTypeOutput!]!
+
+  salesByRevenueCenter: [OrdersSalesOverviewExtendedSalesByRevenueCenterOutput!]!
+
+  salesByTenderTypes: OrdersSalesOverviewExtendedSalesByTenderTypesOutput!
+
+  taxes: [OrdersSalesOverviewExtendedTaxesOutput!]!
+
+  tips: OrdersSalesOverviewExtendedTipsOutput!
+
+  voids: [OrdersSalesOverviewExtendedVoidsOutput!]!
+}
+
+type OrdersSalesProductMixModifierOutput {
+  amount: Int!
+
+  name: String!
+
+  price: Int!
+}
+
+type OrdersSalesProductMixOutput {
+  discounts: Int!
+
+  grossSale: Int!
+
+  modifiers: [OrdersSalesProductMixModifierOutput!]!
+
+  name: String!
+
+  netSale: Int!
+
+  refunded: Int!
+
+  refunds: Int!
+
+  sold: Int!
+}
+
+type OrdersSalesTaxesOutput {
+  name: String!
+
+  price: Int!
+}
+
+type OrdersSalesTipsOutput {
+  amount: Int!
+
+  orderId: ID!
+
+  refund: Int!
+
+  tableName: [String]!
+
+  tableSection: [String]!
+
+  tip: Int!
+}
+
+type OrderTypesOutput {
+  items: [OrderType]!
+
+  count: Int!
+}
+
+enum OrderItemStatuses {
+  ACCEPTED
+
+  COMPLETED
+
+  IN_PROGRESS
+
+  PENDING
+
+  REJECTED @deprecated(reason: "No longer supported")
+
+  REJECTED_WITH_REFUND @deprecated(reason: "No longer supported")
+
+  REJECTED_WITH_VOID @deprecated(reason: "No longer supported")
+
+  VOIDED_AND_REFUNDED @deprecated(reason: "No longer supported")
+}
+
+enum OrderItemDynamicPriceTypes {
+  DECREASED_AMOUNT
+
+  DECREASED_PERCENTAGE
+
+  INCREASED_AMOUNT
+
+  INCREASED_PERCENTAGE
+}
+
+type OrderItemModifier {
+  amount: Int!
+
+  cashDiscount: Int!
+
+  chitName: String!
+
+  externalId: ID
+
+  groupExternalId: ID
+
+  groupName: String!
+
+  name: String!
+
+  price: Int!
+}
+
+type OrderItemTaxes {
+  amount: Float
+
+  externalId: String
+
+  id: ID!
+
+  isInclusive: Boolean!
+
+  isRemoved: Boolean!
+
+  name: String!
+
+  rate: Int @deprecated(reason: "No longer supported")
+
+  type: TaxType
+}
+
+type OrderItemDynamicPrice {
+  amount: Float
+
+  id: ID!
+
+  name: String!
+
+  type: OrderItemDynamicPriceTypes!
+
+  price: Int @deprecated(reason: "No longer supported")
+}
+
+type OrderItem {
+  acceptedKdsId: ID
+
+  amount: Int!
+
+  cashDiscount: Int!
+
+  chitName: String!
+
+  createdAt: DateTime!
+
+  delayedUntil: DateTime
+
+  dynamicPrice: OrderItemDynamicPrice
+
+  externalItemId: ID
+
+  id: ID!
+
+  itemKdsIds: [ID!]!
+
+  itemPrinterIds: [ID!]!
+
+  menuCategoryId: ID!
+
+  menuCategoryName: String!
+
+  menuId: ID!
+
+  menuItemId: ID
+
+  modifiers: [OrderItemModifier!]!
+
+  name: String!
+
+  note: String
+
+  orderedByConsumerId: ID
+
+  orderedByConsumerName: String
+
+  price: Int!
+
+  priceTieredName: String
+
+  revenueCenter: String!
+
+  revenueCenterId: ID!
+
+  status: OrderItemStatuses!
+
+  tableKdsIds: [ID!]!
+
+  tableName: String
+
+  tableOrderType: String!
+
+  tablePrinterIds: [ID!]!
+
+  tableSection: String
+
+  taxes: [OrderItemTaxes!]!
+
+  updatedAt: DateTime!
+}
+
+input OrderItemDynamicPriceInput {
+  amount: Float!
+
+  id: ID!
+
+  name: NonEmptyString!
+
+  type: OrderItemDynamicPriceTypes!
+}
+
+input OrderItemModifierInput {
+  amount: Int!
+
+  cashDiscount: Int!
+
+  chitName: NonEmptyString!
+
+  externalId: ID
+
+  groupExternalId: ID
+
+  groupName: NonEmptyString!
+
+  name: NonEmptyString!
+
+  price: Int!
+}
+
+input OrderItemTaxesInput {
+  amount: Float!
+
+  externalId: String
+
+  id: ID!
+
+  isInclusive: Boolean!
+
+  name: NonEmptyString!
+
+  type: TaxType!
+}
+
+input OrderItemInput {
+  amount: Int!
+
+  cashDiscount: Int!
+
+  chitName: NonEmptyString!
+
+  createdAt: DateTime
+
+  delayedUntil: DateTime
+
+  dynamicPrice: OrderItemDynamicPriceInput
+
+  externalItemId: ID
+
+  id: ID
+
+  itemKdsIds: [ID!]!
+
+  itemPrinterIds: [ID!]!
+
+  menuCategoryId: ID!
+
+  menuCategoryName: String!
+
+  menuId: ID!
+
+  menuItemId: ID!
+
+  modifiers: [OrderItemModifierInput!]!
+
+  name: NonEmptyString!
+
+  note: String
+
+  orderedByConsumerId: ID
+
+  orderedByConsumerName: String
+
+  prepTime: NonNegativeInt
+
+  price: NonNegativeInt!
+
+  priceTieredName: String
+
+  revenueCenter: NonEmptyString
+
+  revenueCenterId: ID
+
+  tableKdsIds: [ID!]!
+
+  tableName: String
+
+  tableOrderType: NonEmptyString!
+
+  tablePrinterIds: [ID!]!
+
+  tableSection: String
+
+  taxes: [OrderItemTaxesInput!]!
+
+  updatedAt: DateTime
+}
+
+input VoidOrderCheckItemsInput {
+  items: [VoidOrderCheckItemsItemInput!]!
+
+  orderCheckId: ID!
+
+  voidReason: NonEmptyString!
+}
+
+input VoidOrderCheckItemsItemInput {
+  amount: Int!
+
+  id: ID!
+}
+
+input RefundOrderCheckItemsInput {
+  items: [RefundOrderItemInput!]!
+}
+
+input RefundOrderItemInput {
+  amount: Int!
+
+  id: ID!
+}
+
+input VoidOrdersCheckItemsInput {
+  orderId: ID!
+
+  orderCheckId: ID!
+
+  orderCheckItemIds: [ID!]!
+}
+
+enum OrderChecksDiscountTypes {
+  FIXED_AMOUNT_OFF
+
+  FIXED_PERCENTAGE_OFF
+
+  OPEN_AMOUNT_OFF
+
+  OPEN_PERCENTAGE_OFF
+}
+
+enum OrderCheckPaymentStatuses {
+  AUTHORIZED
+
+  NONE
+
+  PAID
+
+  PARTIALLY_AUTHORIZED
+
+  PARTIALLY_PAID
+
+  PRE_AUTHORIZED
+
+  VOIDED
+}
+
+enum OrderCheckItemTotalsDiscountAppliedTo {
+  CHECK
+
+  CHECK_ITEM
+}
+
+enum OrderCheckItemTotalsTaxType {
+  EXCLUSIVE
+
+  INCLUSIVE
+}
+
+type OrderCheckItemTotalsModifier {
+  calculatedPrice: Int!
+
+  name: String!
+}
+
+type OrderCheckItemTotalsDiscount {
+  appliedTo: OrderCheckItemTotalsDiscountAppliedTo!
+
+  calculatedPrice: Int!
+
+  id: ID!
+
+  name: String!
+
+  refundedPrice: Int!
+
+  voidPaidPrice: Int!
+
+  type: OrderChecksDiscountTypes!
+}
+
+type OrderCheckItemTotalsTax {
+  calculatedPrice: Int!
+
+  id: ID!
+
+  name: String!
+
+  refundedPrice: Int!
+
+  type: OrderCheckItemTotalsTaxType!
+
+  voidPaidPrice: Int!
+}
+
+type OrderCheckItemTotals {
+  calculatedBasePrice: Int!
+
+  refundedBasePrice: Int!
+
+  voidPaidBasePrice: Int!
+
+  voidedBasePrice: Int!
+
+  calculatedModifiers: [OrderCheckItemTotalsModifier!]!
+
+  calculatedDiscounts: [OrderCheckItemTotalsDiscount!]!
+
+  calculatedTaxes: [OrderCheckItemTotalsTax!]!
+}
+
+type OrderCheckItem {
+  amount: Float!
+
+  createdAt: DateTime!
+
+  discounts: [OrderCheckDiscount!]!
+
+  extBasePriceCents: Int @deprecated(reason: "No longer supported")
+
+  extTotalPriceCents: Int @deprecated(reason: "No longer supported")
+
+  extTaxCents: Int @deprecated(reason: "No longer supported")
+
+  id: ID!
+
+  orderItemId: ID!
+
+  refundAmount: Float!
+
+  refundFailedAmount: Float!
+
+  totals: OrderCheckItemTotals!
+
+  updatedAt: DateTime!
+
+  voidAmount: Float!
+
+  voidPaidAmount: Float!
+
+  voidReason: String
+}
+
+type OrderCheckClover {
+  meteredId: ID
+
+  orderId: ID!
+}
+
+type OrderCheckDiscount {
+  amount: Float!
+
+  id: ID!
+
+  name: String!
+
+  price: Int
+
+  type: OrderChecksDiscountTypes!
+}
+
+type OrderCheck {
+  clover: OrderCheckClover
+
+  consumer: Consumer
+
+  consumerId: ID!
+
+  consumerName: String!
+
+  createdAt: DateTime!
+
+  discounts: [OrderCheckDiscount!]!
+
+  failedRefundTransactions: [FailedRefundTransaction!]!
+
+  id: ID!
+
+  isReceiptSent: Boolean!
+
+  items: [OrderCheckItem!]!
+
+  paymentProvider: PaymentProviders!
+
+  paymentStatus: OrderCheckPaymentStatuses!
+
+  paymentTransactions: [PaymentTransaction!]!
+
+  referenceId: String!
+
+  tip: Int
+
+  updatedAt: DateTime!
+}
+
+input OrderCheckDiscountInput {
+  amount: Float!
+
+  id: ID!
+
+  name: NonEmptyString!
+
+  type: OrderChecksDiscountTypes!
+}
+
+input CreateOrderCheckItemInput {
+  amount: Float!
+
+  discounts: [OrderCheckDiscountInput!]
+
+  orderItemId: ID!
+
+  createdAt: DateTime
+
+  updatedAt: DateTime
+}
+
+input CreateOrderCheckInput {
+  consumerId: ID
+
+  consumerName: NonEmptyString!
+
+  discounts: [OrderCheckDiscountInput!]
+
+  items: [CreateOrderCheckItemInput!]!
+
+  referenceId: NonEmptyString!
+
+  createdAt: DateTime
+
+  updatedAt: DateTime
+}
+
+input CreateOrderChecksInput {
+  checks: [CreateOrderCheckInput!]!
+
+  orderId: ID!
+}
+
+input CreateOrderPosChecksInput {
+  checks: [CreateOrderCheckInput!]!
+}
+
+input UpdateOrderCheckItemInput {
+  id: ID
+
+  amount: Float!
+
+  discounts: [OrderCheckDiscountInput!]
+
+  orderItemId: ID!
+
+  createdAt: DateTime
+
+  updatedAt: DateTime
+}
+
+input UpdateOrderCheckInput {
+  consumerId: ID
+
+  consumerName: NonEmptyString!
+
+  discounts: [OrderCheckDiscountInput!]
+
+  id: ID
+
+  items: [UpdateOrderCheckItemInput!]!
+
+  referenceId: NonEmptyString
+
+  createdAt: DateTime
+
+  updatedAt: DateTime
+}
+
+input ChargeOrderCheckInput {
+  discounts: [OrderCheckDiscountInput!]
+
+  tip: NonNegativeInt
+}
+
+type GroupOrder {
+  createdAt: DateTime!
+
+  groupName: String!
+
+  id: ID!
+
+  isConfirmed: Boolean!
+
+  isDeleted: Boolean!
+
+  merchantId: ID!
+
+  multimerchantId: ID
+
+  orderId: ID
+
+  participants: [GroupOrderParticipant!]!
+
+  scheduleAt: DateTime
+
+  specialInstructions: String!
+
+  type: String!
+
+  updatedAt: DateTime!
+}
+
+type GroupOrderParticipant {
+  consumerId: String!
+
+  consumerName: String!
+
+  isOrganizer: Boolean!
+
+  isReady: Boolean!
+
+  items: [OrderItem!]!
+}
+
+input CreateGroupOrderInput {
+  groupName: NonEmptyString!
+
+  merchantId: ID!
+
+  multimerchantId: ID
+
+  scheduleAt: DateTime
+
+  type: String!
+}
+
+input UpdateGroupOrderInput {
+  isReady: Boolean
+
+  items: [OrderItemInput!]
+
+  scheduleAt: DateTime
+
+  type: String
+}
+
+input ConfirmGroupOrderInput {
+  consumerAddressId: ID
+
+  deliveryFee: NonNegativeInt
+
+  deliveryQuoteId: String
+
+  discounts: [OrderCheckDiscountInput!]!
+
+  scheduleAt: DateTime
+
+  specialInstructions: String
+
+  tip: NonNegativeInt
+
+  transactionId: String
+}
+
+type OrderThrottlingRule {
+  id: ID!
+
+  levelOneAdditionalWaitingTime: Int
+
+  levelOneEnabled: Boolean!
+
+  levelOneItemsReceived: Int
+
+  levelOneMessage: String
+
+  levelThreeAdditionalWaitingTime: Int
+
+  levelThreeEnabled: Boolean!
+
+  levelThreeItemsReceived: Int
+
+  levelThreeMessage: String
+
+  levelTwoAdditionalWaitingTime: Int
+
+  levelTwoEnabled: Boolean!
+
+  levelTwoItemsReceived: Int
+
+  levelTwoMessage: String
+
+  menus: [Menu!]!
+
+  merchantId: ID!
+}
+
+input CreateOrderThrottlingRuleInput {
+  levelOneAdditionalWaitingTime: Int
+
+  levelOneEnabled: Boolean
+
+  levelOneItemsReceived: Int
+
+  levelOneMessage: String
+
+  levelThreeAdditionalWaitingTime: Int
+
+  levelThreeEnabled: Boolean
+
+  levelThreeItemsReceived: Int
+
+  levelThreeMessage: String
+
+  levelTwoAdditionalWaitingTime: Int
+
+  levelTwoEnabled: Boolean
+
+  levelTwoItemsReceived: Int
+
+  levelTwoMessage: String
+
+  menuIds: [ID!]!
+}
+
+input UpdateOrderThrottlingRuleInput {
+  levelOneAdditionalWaitingTime: Int
+
+  levelOneEnabled: Boolean
+
+  levelOneItemsReceived: Int
+
+  levelOneMessage: String
+
+  levelThreeAdditionalWaitingTime: Int
+
+  levelThreeEnabled: Boolean
+
+  levelThreeItemsReceived: Int
+
+  levelThreeMessage: String
+
+  levelTwoAdditionalWaitingTime: Int
+
+  levelTwoEnabled: Boolean
+
+  levelTwoItemsReceived: Int
+
+  levelTwoMessage: String
+
+  menuIds: [ID!]
+}
+
+type OrderThrottlingItemsCountOutput {
+  menuId: ID!
+
+  count: Int!
+}
+
+type OrderVoid {
+  id: ID!
+
+  name: String!
+
+  merchantId: ID!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type OrderVoidsOutput {
+  items: [OrderVoid]!
+
+  count: Int!
+}
+
+enum PaymentCardTypes {
+  ACCEL
+
+  AFFN
+
+  AMEX
+
+  ATH
+
+  CHECKING_ACCOUNT
+
+  CORPORATE_CHECKING_ACCOUNT
+
+  CORPORATE_SAVINGS_ACCOUNT
+
+  CULIANCE
+
+  DEBIT
+
+  DINERS
+
+  DISCOVER
+
+  INTERAC
+
+  INTERLINK
+
+  JEANIE
+
+  MAESTRO
+
+  MASTERCARD
+
+  NYCE
+
+  PULSE
+
+  SAVINGS_ACCOUNT
+
+  SHAZAM
+
+  STAR
+
+  UNKNOWN
+
+  VISA
+}
+
+enum PaymentOriginTypes {
+  APPLE_PAY
+
+  CARD_TERMINAL
+
+  ECOMMERCE
+}
+
+enum PaymentRefundScope {
+  ITEMS
+
+  TRANSACTION
+}
+
+enum InvoiceStatuses {
+  PENDING
+
+  IN_PROGRESS
+
+  COMPLETED
+
+  FAILED
+}
+
+enum PaymentTransactionStatuses {
+  PENDING
+
+  APPROVED
+
+  FAILED
+
+  CAPTURED
+
+  SETTLED
+
+  RETURNED
+}
+
+type PaymentTransactionMetadata {
+  cardName: String!
+
+  cardApp: String!
+
+  entryMethod: String!
+
+  aid: String!
+
+  cryptogram: String!
+
+  approvalCode: String!
+
+  responseCode: String!
+
+  responseMessage: String!
+
+  cardholderName: String
+}
+
+type PaymentTransaction {
+  amount: Int!
+
+  approvedAmount: Int!
+
+  cardId: String
+
+  cardType: PaymentCardTypes!
+
+  consumerId: ID
+
+  createdAt: DateTime!
+
+  deliveryFee: Int!
+
+  employeeId: ID
+
+  externalMerchantId: ID!
+
+  fee: Int!
+
+  id: ID!
+
+  isPreAuth: Boolean!
+
+  last4: String
+
+  merchantId: ID!
+
+  metadata: PaymentTransactionMetadata
+
+  orderCheckId: ID
+
+  orderId: ID!
+
+  parentId: ID
+
+  paymentMethod: PaymentMethod!
+
+  paymentOrigin: PaymentOriginTypes!
+
+  paymentProvider: MerchantPaymentMethod!
+
+  pendingTip: Int
+
+  posId: ID
+
+  referenceId: String
+
+  refundScope: PaymentRefundScope
+
+  tax: Int
+
+  terminalTransactionId: ID
+
+  tip: Int
+
+  transactionId: ID
+
+  type: PaymentTransactionType!
+
+  updatedAt: DateTime!
+}
+
+type Invoice {
+  amount: Int!
+
+  billToMerchantId: ID!
+
+  billingRuleId: ID!
+
+  createdAt: DateTime!
+
+  currency: String!
+
+  description: String!
+
+  id: ID!
+
+  merchantId: ID!
+
+  name: String!
+
+  referenceId: String!
+
+  scheduledAt: DateTime!
+
+  status: InvoiceStatuses!
+
+  updatedAt: DateTime!
+}
+
+type PaymentMerchantTransaction {
+  amount: Int!
+
+  billToMerchantId: ID!
+
+  cardId: String!
+
+  createdAt: DateTime!
+
+  last4: String!
+
+  merchantId: ID!
+
+  paymentProvider: MerchantPaymentMethod!
+
+  invoiceId: ID!
+
+  paymentType: PaymentCardTypes!
+
+  referenceId: String!
+
+  status: PaymentTransactionStatuses!
+
+  transactionId: ID!
+
+  updatedAt: DateTime!
+}
+
+type FailedRefundTransactionItem {
+  id: ID!
+
+  amount: Int!
+}
+
+type FailedRefundTransaction {
+  id: ID!
+
+  amount: Int!
+
+  items: [FailedRefundTransactionItem!]
+
+  merchantId: ID!
+
+  orderCheckId: ID!
+
+  orderId: ID!
+
+  tax: Int
+
+  transactionId: ID!
+}
+
+type PaymentTransactionsOutput {
+  items: [PaymentTransaction]
+
+  count: Int!
+}
+
+type FailedRefundTransactionsOutput {
+  items: [FailedRefundTransaction]
+
+  count: Int!
+}
+
+type PaymentMerchantTransactionsOutput {
+  items: [PaymentMerchantTransaction!]!
+
+  count: Int!
+}
+
+type InvoicesOutput {
+  items: [Invoice!]!
+
+  count: Int!
+}
+
+enum PaymentTransactionType {
+  SALE
+
+  AUTH
+
+  CAPTURE
+
+  REVERSE_AUTH
+
+  REFUND
+
+  INCREMENTAL_AUTHORIZATION
+}
+
+input PaymentTransactionMetadataInput {
+  cardName: String!
+
+  cardApp: String!
+
+  entryMethod: String!
+
+  aid: String!
+
+  cryptogram: String!
+
+  approvalCode: String!
+
+  responseCode: String!
+
+  responseMessage: String!
+
+  cardholderName: String!
+}
+
+input CreatePaymentTransactionInput {
+  amount: Int!
+
+  approvedAmount: Int!
+
+  cardId: ID
+
+  cardType: PaymentCardTypes!
+
+  consumerId: ID
+
+  createdAt: DateTime!
+
+  deliveryFee: Int
+
+  employeeId: ID
+
+  fee: Int
+
+  isPreAuth: Boolean
+
+  last4: String
+
+  metadata: PaymentTransactionMetadataInput
+
+  orderCheckId: ID!
+
+  orderId: ID!
+
+  parentId: ID
+
+  paymentMethod: PaymentMethod!
+
+  paymentOrigin: PaymentOriginTypes!
+
+  paymentProvider: MerchantPaymentMethod!
+
+  posId: ID
+
+  referenceId: String!
+
+  tax: Int
+
+  terminalTransactionId: ID
+
+  tip: Int
+
+  type: PaymentTransactionType!
+
+  updatedAt: DateTime!
+}
+
+input UpdatePaymentTransactionInput {
+  isPreAuth: Boolean
+}
+
+input UpdatePaymentMerchantTransactionInput {
+  status: PaymentTransactionStatuses!
+}
+
+enum PaymentMethod {
+  CARD
+
+  CASH
+
+  GIFT_CARD
+}
+
+type PayrixMerchant {
+  createdAt: DateTime!
+
+  id: ID!
+
+  merchantId: ID!
+
+  payrixMerchantId: String!
+
+  status: PayrixMerchantStatus!
+
+  updatedAt: DateTime!
+
+  vcoreAcceptorId: String
+
+  vcoreAccountId: String
+
+  vcoreAccountToken: String
+
+  vcoreDefaultTerminalId: String
+}
+
+type PayrixAch {
+  type: String!
+
+  last4: String!
+
+  cardId: String!
+}
+
+type PayrixMerchantCustomer {
+  id: ID!
+
+  merchantId: ID!
+
+  payrixCustomerId: String!
+
+  ach: PayrixAch
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type AchAccountVerificationResultInformation {
+  decisionType: String
+
+  result: String
+}
+
+type AchAccountVerification {
+  action: String
+
+  policyName: String
+
+  policyUuid: String
+
+  results: [AchAccountVerificationResultInformation!]
+
+  riskLevel: String
+
+  startedAt: Int
+
+  subject: String
+
+  uuid: String
+}
+
+type PayrixCard {
+  type: String!
+
+  last4: String
+
+  cardId: String!
+
+  first6: String!
+
+  expYear: String!
+
+  expMonth: String!
+
+  isDefault: Boolean!
+}
+
+type PayrixExternalPayout {
+  id: String!
+
+  created: String!
+
+  modified: String!
+
+  description: String!
+
+  amount: Float!
+
+  status: Int!
+
+  currency: String!
+
+  secondaryDescriptor: String
+
+  events: [PayrixExternalPayoutEvent]
+}
+
+type PayrixExternalPayoutEvent {
+  event: Int!
+
+  description: String!
+
+  credit: Float!
+
+  debit: Float!
+
+  count: Int!
+
+  disbursed: Float!
+}
+
+type PayrixExternalPayoutEntry {
+  id: String!
+
+  created: String!
+
+  modified: String!
+
+  disbursement: String!
+
+  event: Int!
+
+  eventId: String
+
+  amount: Float!
+
+  amountUsed: Float!
+
+  description: String!
+
+  orderId: ID
+
+  fees: Float
+}
+
+type PayrixExternalPayoutEntryReport {
+  id: String!
+
+  created: String!
+
+  modified: String!
+
+  disbursement: String!
+
+  event: Int!
+
+  eventId: String
+
+  amount: Float!
+
+  amountUsed: Float!
+
+  description: String!
+
+  orderId: ID
+
+  fees: Float
+
+  cardNumber: String
+
+  cardholder: String
+
+  email: String
+
+  type: String
+
+  zip: String
+}
+
+type PayrixPayoutHistory {
+  status: String!
+
+  createdAt: DateTime!
+}
+
+type PayrixPayout {
+  id: ID!
+
+  merchantId: ID!
+
+  payrixMerchantId: ID!
+
+  disbursementId: ID!
+
+  payoutId: ID!
+
+  history: [PayrixPayoutHistory]!
+
+  amount: Int!
+
+  isProcessed: Boolean!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+enum PayrixTransactionType {
+  SALE
+
+  AUTH
+
+  CAPTURE
+
+  REVERSE_AUTH
+
+  REFUND
+}
+
+enum PayrixMerchantStatus {
+  NOT_READY
+
+  READY
+
+  BOARDED
+
+  MANUAL
+
+  DENIED
+}
+
+type PayrixCustomer {
+  id: ID!
+
+  consumerId: ID!
+
+  customerId: String!
+
+  cards: [PayrixCard]
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreatePayrixMerchantInput {
+  merchantId: ID!
+
+  payrixMerchantId: String!
+
+  status: PayrixMerchantStatus
+}
+
+input CreatePayrixPayoutInput {
+  amount: Int!
+
+  disbursementId: ID!
+
+  isProcessed: Boolean
+
+  payoutId: ID!
+
+  payrixEntityId: ID!
+
+  status: String!
+
+  statusDate: DateTime!
+}
+
+input UpdatePayrixPayoutInput {
+  status: String!
+
+  statusDate: DateTime!
+
+  isProcessed: Boolean
+}
+
+input AddPayrixCustomerCardInput {
+  email: EmailAddress!
+
+  payrixTokenId: NonEmptyString!
+
+  zip: NonEmptyString!
+}
+
+input AddPayrixMerchantCustomerAchInput {
+  payrixTokenId: NonEmptyString!
+}
+
+input UpdatePayrixMerchantInput {
+  status: PayrixMerchantStatus!
+}
+
+type CreatePayrixTxnSessionKeyOutput {
+  txnSessionKey: String!
+}
+
+type PayrixExternalPayoutsOutput {
+  items: [PayrixExternalPayout!]!
+
+  count: Int!
+}
+
+type PayrixExternalPayoutEntriesOutput {
+  items: [PayrixExternalPayoutEntry!]!
+
+  count: Int!
+}
+
+type Pos {
+  createdAt: DateTime!
+
+  id: ID!
+
+  isDigitalOrdersPrintingStation: Boolean!
+
+  merchantId: ID!
+
+  name: String!
+
+  posId: ID!
+
+  printers: [Printer!]!
+
+  tip1: Float!
+
+  tip2: Float!
+
+  tip3: Float!
+
+  tipsEnabled: Boolean!
+
+  updatedAt: DateTime!
+}
+
+input CreatePosInput {
+  name: String!
+
+  posId: ID!
+
+  isDigitalOrdersPrintingStation: Boolean
+
+  printerIds: [ID!]
+
+  tipsEnabled: Boolean!
+
+  tip1: Float!
+
+  tip2: Float!
+
+  tip3: Float!
+}
+
+input UpdatePosInput {
+  deletedPrinterIds: [ID!]
+
+  isDigitalOrdersPrintingStation: Boolean
+
+  name: String!
+
+  printerIds: [ID!]
+
+  tipsEnabled: Boolean
+
+  tip1: Float
+
+  tip2: Float
+
+  tip3: Float
+}
+
+type PosOutput {
+  items: [Pos!]!
+
+  count: Int!
+}
+
+enum PrinterVendor {
+  STAR
+
+  EPSON
+}
+
+enum PrinterTicketSize {
+  SMALL
+
+  MEDIUM
+
+  LARGE
+}
+
+enum PrintingTypes {
+  ORDERS
+
+  RECEIPTS
+}
+
+type Printer {
+  id: ID!
+
+  name: String
+
+  vendor: PrinterVendor
+
+  macAddress: MAC!
+
+  merchantId: ID
+
+  merchant: Merchant
+
+  isOnline: Boolean!
+
+  batchingTime: Int
+
+  ticketSize: PrinterTicketSize!
+
+  printingTypes: [PrintingTypes!]!
+
+  series: String
+
+  kdses: [Kds]!
+
+  menuItems: [MenuItem]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreatePrinterInput {
+  macAddress: MAC!
+
+  name: String
+
+  series: String!
+
+  ticketSize: PrinterTicketSize
+
+  printingTypes: [PrintingTypes!]
+
+  vendor: PrinterVendor!
+}
+
+input CreatePrintersInput {
+  vendor: PrinterVendor!
+
+  macAddress: MAC!
+}
+
+input UpdatePrinterInput {
+  name: String
+
+  batchingTime: NonNegativeInt
+
+  series: String
+
+  printingTypes: [PrintingTypes!]
+
+  ticketSize: PrinterTicketSize
+}
+
+input PrintTicketItemModifierInput {
+  chitName: String!
+}
+
+input PrintTicketItemInput {
+  priceTieredName: String
+
+  amount: NonNegativeInt!
+
+  chitName: String!
+
+  modifiers: [PrintTicketItemModifierInput]
+
+  consumerName: String!
+
+  showConsumerName: Boolean!
+
+  note: String
+
+  showSpecialInstructions: Boolean!
+
+  specialInstructions: String
+}
+
+input PrintTicketInput {
+  ticketNumber: NonNegativeInt!
+
+  createdAt: DateTime!
+
+  scheduleAt: DateTime
+
+  consumerId: ID!
+
+  tableName: String
+
+  orderType: String!
+
+  tableSection: String
+
+  items: [PrintTicketItemInput!]!
+
+  deliveryId: ID
+}
+
+type PrintersOutput {
+  items: [Printer]!
+
+  count: Int!
+}
+
+type RevenueCenter {
+  id: ID!
+
+  name: String!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateRevenueCenterInput {
+  name: String!
+}
+
+input UpdateRevenueCenterInput {
+  name: String
+}
+
+type RevenueCenterOutput {
+  items: [RevenueCenter]!
+
+  count: Int!
+}
+
+type SevenShiftsMerchant {
+  createdAt: String!
+
+  hasApiToken: Boolean!
+
+  id: ID!
+
+  merchantId: String!
+
+  sevenShiftsCompanyGUID: String!
+
+  sevenShiftsCompanyId: String!
+
+  sevenShiftsLocationId: String
+
+  sevenShiftsLocationName: String
+
+  sevenShiftsLocationAddress: String
+
+  isInitiallySynced: Boolean!
+
+  updatedAt: String!
+}
+
+type SevenShiftsMerchantLocation {
+  id: ID!
+
+  name: String!
+
+  formattedAddress: String!
+}
+
+type SevenShiftsLocationDepartment {
+  id: ID!
+
+  name: String!
+}
+
+type SevenShiftsLocationRole {
+  id: ID!
+
+  name: String!
+
+  departmentId: ID
+}
+
+type SevenShiftsLocationUser {
+  id: ID!
+
+  fullName: String!
+
+  email: String
+
+  phone: String
+
+  roleIds: [ID!]!
+}
+
+input UpdateSevenShiftsMerchantInput {
+  apiToken: String
+
+  sevenShiftsLocationId: String
+
+  sevenShiftsLocationName: String
+
+  sevenShiftsLocationAddress: String
+}
+
+input SyncUserTabskiOnlyInput {
+  userId: String!
+
+  departmentsIds: [String!]!
+}
+
+input SyncUser7shiftsOnlyInput {
+  externalUserId: String!
+
+  email: String!
+}
+
+input SyncUserInBothSystemsInput {
+  userId: String!
+
+  externalUserId: String!
+}
+
+input SyncUsersInput {
+  usersTabskiOnly: [SyncUserTabskiOnlyInput!]!
+
+  users7shiftsOnly: [SyncUser7shiftsOnlyInput!]!
+
+  usersInBothSystems: [SyncUserInBothSystemsInput!]!
+}
+
+type Table {
+  id: ID!
+
+  name: String!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  multimerchantGroupId: ID
+
+  orderTypeId: ID
+
+  orderType: OrderType
+
+  sectionId: ID
+
+  section: TableSection
+
+  kdses: [Kds]!
+
+  menus: [Menu]!
+
+  printers: [Printer]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type TableSection {
+  id: ID!
+
+  name: String!
+
+  merchantId: ID!
+
+  merchant: Merchant!
+
+  tables: [Table]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateTableInput {
+  name: String!
+
+  orderTypeId: ID!
+
+  sectionId: ID!
+
+  kdsIds: [ID]
+
+  menuIds: [ID]
+
+  printerIds: [ID]
+}
+
+input UpdateTableInput {
+  name: NonEmptyString
+
+  orderTypeId: ID
+
+  sectionId: ID
+
+  kdsIds: [ID]
+
+  deletedKdsIds: [ID]
+
+  menuIds: [ID]
+
+  deletedMenuIds: [ID]
+
+  printerIds: [ID]
+
+  deletedPrinterIds: [ID]
+}
+
+input UpdateTablesInput {
+  tableIds: [ID!]!
+
+  sectionId: ID
+
+  orderTypeId: ID
+
+  kdsIds: [ID]
+
+  deletedKdsIds: [ID]
+
+  menuIds: [ID]
+
+  deletedMenuIds: [ID]
+
+  printerIds: [ID]
+
+  deletedPrinterIds: [ID]
+}
+
+input CreateTableSectionInput {
+  name: String!
+}
+
+input UpdateTableSectionInput {
+  name: NonEmptyString
+}
+
+type TablesOutput {
+  items: [Table]!
+
+  count: Int!
+}
+
+type TableSectionsOutput {
+  items: [TableSection]!
+
+  count: Int!
+}
+
+enum TaxType {
+  FIXED
+
+  PERCENTAGE
+
+  FLAT
+}
+
+type Tax {
+  id: ID!
+
+  externalId: ID
+
+  name: String!
+
+  externalName: String
+
+  rate: Float!
+
+  type: TaxType!
+
+  isInclusive: Boolean!
+
+  merchant: Merchant!
+
+  merchantId: ID!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+input CreateTaxInput {
+  name: NonEmptyString!
+
+  rate: NonNegativeFloat!
+
+  type: TaxType!
+
+  isInclusive: Boolean
+}
+
+input CreateTaxesInput {
+  externalId: NonEmptyString!
+
+  name: NonEmptyString!
+
+  externalName: NonEmptyString!
+
+  rate: NonNegativeFloat!
+
+  type: TaxType!
+}
+
+input UpdateTaxInput {
+  name: NonEmptyString
+
+  rate: NonNegativeFloat
+
+  type: TaxType
+
+  isInclusive: Boolean
+}
+
+type TaxesOutput {
+  items: [Tax!]!
+
+  count: Int!
+}
+
+type RemoveTaxesOutput {
+  count: Int!
+}
+
+type TimeClockBreak {
+  startedAt: DateTime
+
+  endedAt: DateTime
+}
+
+type TimeClock {
+  breaks: [TimeClockBreak!]!
+
+  clockedIn: DateTime!
+
+  clockedOut: DateTime
+
+  createdAt: DateTime!
+
+  wageAmount: Int!
+
+  wageType: WageType!
+
+  id: ID!
+
+  merchantId: ID!
+
+  openOrdersCount: Int!
+
+  pendingTipsCount: Int!
+
+  updatedAt: DateTime!
+
+  user: User!
+
+  userId: ID!
+
+  userPermissionsGroupId: ID!
+
+  userPermissionsGroup: UserPermissionsGroupOnUser!
+}
+
+type PayrollSummary {
+  breaks: Float!
+
+  cashTips: Int!
+
+  creditDebitTips: Int!
+
+  wageAmount: Int!
+
+  wageType: WageType
+
+  hoursWorked: Float!
+
+  payrollTimeClockIds: [ID!]!
+
+  payrollTimeClocks: [TimeClock!]!
+
+  userFullName: String!
+
+  userId: ID!
+
+  wage: Int!
+
+  wageAndTips: Int!
+}
+
+input ClockInInput {
+  userId: ID!
+
+  userPermissionsGroupId: ID!
+
+  clockedIn: DateTime!
+}
+
+input ClockOutInput {
+  clockedOut: DateTime!
+}
+
+input StartBreakInput {
+  startedAt: DateTime!
+}
+
+input EndBreakInput {
+  endedAt: DateTime!
+}
+
+input TimeClockUpdateInput {
+  clockedIn: DateTime
+
+  clockedOut: DateTime
+}
+
+type TimeClocksOutput {
+  items: [TimeClock!]!
+
+  count: Int!
+}
+
+type PayrollSummaryOutput {
+  items: [PayrollSummary!]!
+
+  count: Int!
+}
+
+type ConsumerTokenOutput {
+  consumer: Consumer!
+
+  token: String!
+}
+
+type UberDeliveryQuote {
+  kind: String!
+
+  id: String!
+
+  created: String!
+
+  expires: String!
+
+  fee: Int!
+
+  currency: String!
+
+  currencyType: String!
+
+  dropoffEta: String!
+
+  duration: Int!
+
+  pickupDuration: Int!
+
+  dropoffDeadline: String!
+}
+
+input CreateUberDeliveryQuoteInput {
+  merchantId: ID!
+
+  consumerAddressId: ID!
+
+  dropoffTime: DateTime
+
+  delayTime: Int
+}
+
+enum UserRoles {
+  OWNER
+
+  EMPLOYEE
+
+  ADMIN
+
+  RESELLER
+}
+
+enum CreateUserRoles {
+  OWNER
+
+  EMPLOYEE
+
+  RESELLER
+}
+
+enum PosScreens {
+  OPEN_ORDERS
+
+  TABLE_LAYOUTS
+}
+
+enum WageType {
+  WEEKLY
+
+  HOURLY
+}
+
+type User {
+  activeMerchantId: ID
+
+  activePermissionsGroup: UserPermissionsGroupOnUser
+
+  createdAt: DateTime!
+
+  defaultPosScreen: PosScreens
+
+  email: String!
+
+  fullName: String
+
+  id: ID!
+
+  merchants: [Merchant]
+
+  permissionsGroups: [UserPermissionsGroupOnUser!]
+
+  phone: String
+
+  pin: String
+
+  role: UserRoles!
+
+  serverBankingEnabled: Boolean
+
+  updatedAt: DateTime!
+}
+
+enum UserPermissions {
+  INVENTORY_CREATE_EDIT_MENUS
+
+  INVENTORY_CREATE_EDIT_CATEGORIES
+
+  INVENTORY_CREATE_EDIT_ITEMS_MODIFIERS
+
+  INVENTORY_ADJUST_STOCK_COUNTS
+
+  EMPLOYEES_CREATE_EDIT_EMPLOYEES
+
+  EMPLOYEES_CREATE_EDIT_ROLES_PERMISSIONS
+
+  PAYMENTS_MANUAL_CARD_ENTRY
+
+  PAYMENTS_ISSUE_VOIDS_REFUNDS
+
+  DISCOUNTS_CREATE_EDIT_DISCOUNTS
+
+  DISCOUNTS_APPLY_DISCOUNTS_TO_ORDERS
+
+  DISCOUNTS_APPLY_OPEN_DISCOUNTS
+
+  DISCOUNTS_CREATE_EDIT_DYNAMIC_PRICING
+
+  TIME_CLOCK_VIEW_TIME_SHEETS
+
+  TIME_CLOCK_EDIT_TIME_SHEETS
+
+  TIME_CLOCK_VIEW_SHIFT_REPORT
+
+  TIME_CLOCK_VIEW_ALL_SHIFT_REPORTS
+
+  TIME_CLOCK_VIEW_PAYROLL_SUMMARY
+
+  CASH_MANAGEMENT_ACCESS_CASH_DRAWER
+
+  CASH_MANAGEMENT_PERFORM_CASH_IN_CASH_OUT
+
+  REPORTING_VIEW_SALES_REPORTS
+
+  REPORTING_VIEW_DEPOSITS_BATCHES
+
+  REPORTING_VIEW_TIPS
+
+  REPORTING_ACCESS
+
+  TABLE_SERVICE_ADJUST_TABLE_LAYOUTS
+
+  TABLE_SERVICE_CREATE_CUSTOM_ITEM
+
+  TABLE_SERVICE_ENABLE_SERVER_BANKING
+
+  TABLE_SERVICE_REOPEN_CLOSED_CHECKS
+
+  TABLE_SERVICE_TRANSFER_SERVERS
+
+  TABLE_SERVICE_VIEW_ALL_TABS
+
+  SETTINGS_SALES_REPORTING
+
+  SETTINGS_HARDWARE
+
+  SETTINGS_CREATE_EDIT_VOIDS
+
+  SETTINGS_CREATE_EDIT_ORDER_TYPES
+
+  SETTINGS_EDIT_PAYMENT_ORDER_RECEIPTS
+
+  SETTINGS_ORDER_THROTTLING
+
+  SETTINGS_VOID_ITEMS
+
+  ONLINE_ORDERING_ENABLE_DISABLE
+
+  ONLINE_ORDERING_CHANGE_PREP_TIMES
+
+  ONLINE_ORDERING_ENABLE_DISABLE_DELIVERY
+
+  ONLINE_ORDERING_ADJUST_SCHEDULED_ORDERS
+}
+
+type UsersOnMerchants {
+  userId: ID!
+
+  merchantId: ID!
+
+  pin: String!
+
+  defaultPosScreen: PosScreens!
+
+  serverBankingEnabled: Boolean!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type UserPermissionsGroup {
+  id: ID!
+
+  merchantId: ID!
+
+  name: String!
+
+  permissions: [UserPermissions!]!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+}
+
+type UserPermissionsGroupOnUser {
+  createdAt: DateTime!
+
+  id: ID!
+
+  merchantId: ID!
+
+  name: String!
+
+  permissions: [UserPermissions!]!
+
+  updatedAt: DateTime!
+
+  wageAmount: Int!
+
+  wageType: WageType!
+}
+
+type UserTipsReport {
+  id: ID!
+
+  userId: ID!
+
+  merchantId: ID!
+
+  merchant: Merchant
+
+  user: User
+
+  tips: Int
+
+  shiftStart: DateTime
+
+  shiftEnd: DateTime
+
+  createdAt: DateTime
+
+  updatedAt: DateTime
+}
+
+input UserPermissionsGroupsInput {
+  id: ID!
+
+  wageAmount: NonNegativeInt!
+
+  wageType: WageType!
+}
+
+input AddUserEmployeeInput {
+  userId: ID!
+
+  permissionsGroups: [UserPermissionsGroupsInput!]!
+
+  pin: String!
+}
+
+input CreateUserEmployeeInput {
+  defaultPosScreen: PosScreens
+
+  email: EmailAddress!
+
+  fullName: String!
+
+  password: String!
+
+  permissionsGroups: [UserPermissionsGroupsInput!]!
+
+  phone: String!
+
+  pin: String!
+
+  serverBankingEnabled: Boolean
+}
+
+input UpdateUserEmployeeInput {
+  defaultPosScreen: PosScreens
+
+  fullName: NonEmptyString
+
+  permissionsGroups: [UserPermissionsGroupsInput!]
+
+  phone: NonEmptyString
+
+  pin: String
+
+  serverBankingEnabled: Boolean
+}
+
+input CreateUserInput {
+  fullName: String!
+
+  phone: String!
+
+  email: EmailAddress!
+
+  password: String!
+
+  role: CreateUserRoles!
+}
+
+input CreateUserPermissionsGroupInput {
+  name: String!
+
+  permissions: [UserPermissions!]!
+}
+
+input UpdateUserPermissionsGroupInput {
+  name: String
+
+  permissions: [UserPermissions!]
+}
+
+input CreateUserTipsReportInput {
+  userId: ID!
+
+  tips: Int!
+
+  shiftStart: DateTime!
+
+  shiftEnd: DateTime!
+}
+
+input UpdateUserInput {
+  fullName: NonEmptyString
+
+  phone: NonEmptyString
+}
+
+type UsersOutput {
+  items: [User]
+
+  count: Int
+}
+
+type UserPermissionsGroupsOutput {
+  items: [UserPermissionsGroup!]!
+
+  count: Int
+}
+
+type UserTipsReportsOutput {
+  items: [UserTipsReport]
+
+  count: Int
+}
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
+
+"""
+A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
+"""
+type __Schema {
+  description: String
+
+  """
+  A list of all types supported by this server.
+  """
+  types: [__Type!]!
+
+  """
+  The type that query operations will be rooted at.
+  """
+  queryType: __Type!
+
+  """
+  If this server supports mutation, the type that mutation operations will be rooted at.
+  """
+  mutationType: __Type
+
+  """
+  If this server support subscription, the type that subscription operations will be rooted at.
+  """
+  subscriptionType: __Type
+
+  """
+  A list of all directives supported by this server.
+  """
+  directives: [__Directive!]!
+}
+
+"""
+The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+
+Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+"""
+type __Type {
+  kind: __TypeKind!
+
+  name: String
+
+  description: String
+
+  specifiedByURL: String
+
+  fields(includeDeprecated: Boolean = false): [__Field!]
+
+  interfaces: [__Type!]
+
+  possibleTypes: [__Type!]
+
+  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+
+  ofType: __Type
+
+  isOneOf: Boolean
+}
+
+"""
+An enum describing what kind of type a given `__Type` is.
+"""
+enum __TypeKind {
+  """
+  Indicates this type is a scalar.
+  """
+  SCALAR
+
+  """
+  Indicates this type is an object. `fields` and `interfaces` are valid fields.
+  """
+  OBJECT
+
+  """
+  Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
+  """
+  INTERFACE
+
+  """
+  Indicates this type is a union. `possibleTypes` is a valid field.
+  """
+  UNION
+
+  """
+  Indicates this type is an enum. `enumValues` is a valid field.
+  """
+  ENUM
+
+  """
+  Indicates this type is an input object. `inputFields` is a valid field.
+  """
+  INPUT_OBJECT
+
+  """
+  Indicates this type is a list. `ofType` is a valid field.
+  """
+  LIST
+
+  """
+  Indicates this type is a non-null. `ofType` is a valid field.
+  """
+  NON_NULL
+}
+
+"""
+Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
+"""
+type __Field {
+  name: String!
+
+  description: String
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  type: __Type!
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
+"""
+type __InputValue {
+  name: String!
+
+  description: String
+
+  type: __Type!
+
+  """
+  A GraphQL-formatted string representing the default value for this input value.
+  """
+  defaultValue: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
+"""
+type __EnumValue {
+  name: String!
+
+  description: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
+
+In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
+"""
+type __Directive {
+  name: String!
+
+  description: String
+
+  isRepeatable: Boolean!
+
+  locations: [__DirectiveLocation!]!
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+}
+
+"""
+A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
+"""
+enum __DirectiveLocation {
+  """
+  Location adjacent to a query operation.
+  """
+  QUERY
+
+  """
+  Location adjacent to a mutation operation.
+  """
+  MUTATION
+
+  """
+  Location adjacent to a subscription operation.
+  """
+  SUBSCRIPTION
+
+  """
+  Location adjacent to a field.
+  """
+  FIELD
+
+  """
+  Location adjacent to a fragment definition.
+  """
+  FRAGMENT_DEFINITION
+
+  """
+  Location adjacent to a fragment spread.
+  """
+  FRAGMENT_SPREAD
+
+  """
+  Location adjacent to an inline fragment.
+  """
+  INLINE_FRAGMENT
+
+  """
+  Location adjacent to a variable definition.
+  """
+  VARIABLE_DEFINITION
+
+  """
+  Location adjacent to a schema definition.
+  """
+  SCHEMA
+
+  """
+  Location adjacent to a scalar definition.
+  """
+  SCALAR
+
+  """
+  Location adjacent to an object type definition.
+  """
+  OBJECT
+
+  """
+  Location adjacent to a field definition.
+  """
+  FIELD_DEFINITION
+
+  """
+  Location adjacent to an argument definition.
+  """
+  ARGUMENT_DEFINITION
+
+  """
+  Location adjacent to an interface definition.
+  """
+  INTERFACE
+
+  """
+  Location adjacent to a union definition.
+  """
+  UNION
+
+  """
+  Location adjacent to an enum definition.
+  """
+  ENUM
+
+  """
+  Location adjacent to an enum value definition.
+  """
+  ENUM_VALUE
+
+  """
+  Location adjacent to an input object type definition.
+  """
+  INPUT_OBJECT
+
+  """
+  Location adjacent to an input object field definition.
+  """
+  INPUT_FIELD_DEFINITION
+}
+
+directive @auth (userType: [USER_TYPE], userRole: [USER_ROLE], userPermissions: [UserPermissions]) on ARGUMENT_DEFINITION|OBJECT|FIELD_DEFINITION|INPUT_FIELD_DEFINITION
+
+directive @requiredFor (userType: [USER_TYPE], userRole: [USER_ROLE], userPermissions: [UserPermissions]) on ARGUMENT_DEFINITION|OBJECT|FIELD_DEFINITION|INPUT_FIELD_DEFINITION|INPUT_OBJECT
+
+directive @allowedFor (userType: [USER_TYPE], userRole: [USER_ROLE], userPermissions: [UserPermissions]) on ARGUMENT_DEFINITION|OBJECT|FIELD_DEFINITION|INPUT_FIELD_DEFINITION|INPUT_OBJECT
+
+directive @constraint (minLength: Int, maxLength: Int, startsWith: String, endsWith: String, contains: String, notContains: String, pattern: String, format: String, min: Float, max: Float, exclusiveMin: Float, exclusiveMax: Float, multipleOf: Float, minItems: Int, maxItems: Int, uniqueTypeName: String) on INPUT_FIELD_DEFINITION|FIELD_DEFINITION|ARGUMENT_DEFINITION
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true.
+"""
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Directs the executor to skip this field or fragment when the `if` argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Marks an element of a GraphQL schema as no longer supported.
+"""
+directive @deprecated ("Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/)." reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|INPUT_FIELD_DEFINITION|ENUM_VALUE
+
+"""
+Exposes a URL that specifies the behavior of this scalar.
+"""
+directive @specifiedBy ("The URL that specifies the behavior of this scalar." url: String!) on SCALAR
+
+"""
+Indicates exactly one field must be supplied and this field must not be `null`.
+"""
+directive @oneOf on INPUT_OBJECT
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
