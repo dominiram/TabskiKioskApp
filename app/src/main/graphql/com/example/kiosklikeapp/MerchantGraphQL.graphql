@@ -10,3 +10,25 @@ query GetMerchantBranding($id: ID!) {
         }
     }
 }
+
+query GetMerchantMenus($merchantId: ID!) {
+    menus(merchantId: $merchantId, pagination: false) {
+        items {
+            id
+            name
+            categories {
+                id
+                name
+                order
+                menuItems {
+                    id
+                    name
+                    description
+                    imageUrl
+                    price
+                    stockCount
+                }
+            }
+        }
+    }
+}
