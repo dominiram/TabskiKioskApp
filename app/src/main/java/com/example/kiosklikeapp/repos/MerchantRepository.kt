@@ -8,47 +8,58 @@ import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.NetworkResult
 import com.example.kiosklikeapp.utils.toMenuDomainModel
 import com.example.kiosklikeapp.utils.toMerchantDataModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 interface MerchantRepository {
-    suspend fun fetchBranding(merchantId: String): NetworkResult<MerchantBrandingModel>
+    fun fetchBranding(): Flow<NetworkResult<MerchantBrandingModel>>
 
-    suspend fun fetchMenus(merchantId: String): NetworkResult<List<MerchantMenuModel>>
+    fun fetchMenus(): Flow<NetworkResult<List<MerchantMenuModel>>>
 }
 
 class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantRepository {
-    override suspend fun fetchBranding(merchantId: String): NetworkResult<MerchantBrandingModel> {
-        return try {
+
+    override fun fetchBranding() = flow {
+        val merchantId = MERCHANT_ID
+
+        val result: NetworkResult<MerchantBrandingModel> = try {
             val response = apolloClient
                 .query(GetMerchantBrandingQuery(id = merchantId))
                 .execute()
 
-            if (response.hasErrors()) return NetworkResult.Error(
+            response.data?.merchant?.takeIf { !response.hasErrors() }?.let {
+                NetworkResult.Success(it.toMerchantDataModel())
+            } ?: NetworkResult.Error(
                 response.errors?.firstOrNull()?.message ?: "GraphQL Error"
             )
-
-            response.data?.merchant?.let { NetworkResult.Success(it.toMerchantDataModel()) }
-                ?: NetworkResult.Error("Merchant not found")
         } catch (e: Exception) {
-            NetworkResult.Error(exception = e.message ?: "")
+            NetworkResult.Error(errorMessage = e.message ?: "")
         }
+
+        emit(result)
     }
 
-    override suspend fun fetchMenus(merchantId: String): NetworkResult<List<MerchantMenuModel>> {
-        return try {
+    override fun fetchMenus(): Flow<NetworkResult<List<MerchantMenuModel>>> = flow {
+        val merchantId = MERCHANT_ID
+
+        val result = try {
             val response = apolloClient
                 .query(GetMerchantMenusQuery(merchantId = merchantId))
                 .execute()
 
-            if (response.hasErrors()) {
-                return NetworkResult.Error(
-                    response.errors?.firstOrNull()?.message ?: "Error fetching menus"
-                )
-            }
-
-            response.data?.menus?.toMenuDomainModel()?.let { NetworkResult.Success(it) }
-                ?: NetworkResult.Error("Menus not found for this merchant")
+            response.data?.menus?.takeIf { !response.hasErrors() }?.let {
+                NetworkResult.Success(it.toMenuDomainModel())
+            } ?: NetworkResult.Error(
+                response.errors?.firstOrNull()?.message ?: "GraphQL Error"
+            )
         } catch (e: Exception) {
             NetworkResult.Error(e.message ?: "Network Exception")
         }
+
+        emit(result)
+    }
+
+    companion object {
+        private const val MERCHANT_ID = "cmaxrxqhs0icsob9oe0sccxuw"
     }
 }

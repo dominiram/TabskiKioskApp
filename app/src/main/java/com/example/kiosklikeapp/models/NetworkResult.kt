@@ -14,8 +14,8 @@ sealed class NetworkResult<out T>(
     data class Success<out T>(val t: T?) :
         NetworkResult<T>(status = ApiStatus.SUCCESS, data = t, success = true, message = null)
 
-    data class Error<out T>(val exception: String, val t: T? = null) :
-        NetworkResult<T>(status = ApiStatus.ERROR, data = t, success = false, message = exception)
+    data class Error<out T>(val errorMessage: String, val t: T? = null) :
+        NetworkResult<T>(status = ApiStatus.ERROR, data = t, success = false, message = errorMessage)
 }
 
 enum class ApiStatus {

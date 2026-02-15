@@ -17,7 +17,7 @@ object NetworkModule {
     @Singleton
     fun provideApolloClient(): ApolloClient {
         return ApolloClient.Builder()
-            .serverUrl("https://your-api-endpoint.com/graphql")
+            .serverUrl("https://api-qa.tabski.com/graphql")
             .build()
     }
 
