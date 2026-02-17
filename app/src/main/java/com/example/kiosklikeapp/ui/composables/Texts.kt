@@ -9,13 +9,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
+fun ErrorTitleText(text: String, modifier: Modifier = Modifier, textColor: Color = Color.Black) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = TextStyle(
+            color = textColor,
+            fontSize = 36.sp,
+            fontWeight = FontWeight(700)
+        )
+    )
+}
+
+@Composable
 fun TitleText(text: String, modifier: Modifier = Modifier, textColor: Color = Color.Black) {
     Text(
         modifier = modifier,
         text = text,
         style = TextStyle(
             color = textColor,
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight(700)
         )
     )
@@ -28,7 +41,7 @@ fun DescriptionText(text: String, modifier: Modifier = Modifier, textColor: Colo
         text = text,
         style = TextStyle(
             color = textColor,
-            fontSize = 18.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight(400)
         )
     )

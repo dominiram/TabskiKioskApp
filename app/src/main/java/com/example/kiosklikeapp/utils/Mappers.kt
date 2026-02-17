@@ -32,12 +32,25 @@ fun GetMerchantMenusQuery.Menus.toMenuDomainModel(): List<MerchantMenuModel> {
                             name = item.name,
                             description = item.description,
                             imageUrl = item.imageUrl,
-                            price = (item.price as? Float) ?: 0f,
+                            price = (((item.price as? Int) ?: 0).toFloat() / 100),
                             stockCount = item.stockCount
                         )
                     }
                 )
-            }
+            }.sortedBy { it.sortOrder }
         )
     }
 }
+
+fun List<MerchantMenuModel>.addAllMenusItem(): List<MerchantMenuModel> = buildList {
+    if (this@addAllMenusItem.isNotEmpty()) {
+        add(createCombinedMenu(this@addAllMenusItem))
+        addAll(this@addAllMenusItem)
+    }
+}
+
+private fun createCombinedMenu(allMenusList: List<MerchantMenuModel>) = MerchantMenuModel(
+    id = allMenusList.joinToString(limit = 2) { it.id },
+    name = "All menus",
+    categories = allMenusList.flatMap { it.categories }.sortedBy { it.sortOrder }
+)

@@ -1,5 +1,6 @@
 package com.example.kiosklikeapp.ui.screens
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kiosklikeapp.models.MerchantBrandingModel
@@ -7,6 +8,7 @@ import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.NetworkResult
 import com.example.kiosklikeapp.repos.MerchantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -17,15 +19,26 @@ import javax.inject.Inject
 class MerchantHomePageViewModel @Inject constructor(
     merchantRepository: MerchantRepository
 ) : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+
     val uiState: StateFlow<MerchantHomeUiState> = combine(
         merchantRepository.fetchMenus(),
-        merchantRepository.fetchBranding()
-    ) { menusResult, brandingResult ->
-
+        merchantRepository.fetchBranding(),
+        _searchQuery
+    ) { menusResult, brandingResult, searchText ->
         when {
             menusResult is NetworkResult.Success && brandingResult is NetworkResult.Success -> {
+                val initialMenus = menusResult.data ?: emptyList()
+
+                val displayedMenus =
+                    if (searchText.isBlank()) initialMenus else filterAllMenusByItems(
+                        initialMenus,
+                        searchText
+                    )
+
                 MerchantHomeUiState.Success(
-                    menus = menusResult.data ?: emptyList(),
+                    initialMenus = initialMenus,
+                    menus = displayedMenus,
                     branding = brandingResult.data!!
                 )
             }
@@ -45,10 +58,40 @@ class MerchantHomePageViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(3000),
         initialValue = MerchantHomeUiState.Loading
     )
+
+    fun onSearchTriggered(searchText: String) {
+        _searchQuery.value = searchText
+    }
+
+    private fun filterAllMenusByItems(
+        menus: List<MerchantMenuModel>,
+        searchText: String
+    ): List<MerchantMenuModel> {
+        val firstMenu = menus.firstOrNull() ?: return emptyList()
+
+        val filteredCategories = firstMenu.categories.map { category ->
+            category.copy(
+                items = category.items.filter { item ->
+                    item.name.contains(searchText, ignoreCase = true)
+                }
+            )
+        }.filter { it.items.isNotEmpty() }
+
+        Log.d(
+            "TAG",
+            "filterAllMenusByItems: filteredCategories = ${filteredCategories.map { it.name }}"
+        )
+        Log.d(
+            "TAG",
+            "filterAllMenusByItems: filteredCategoryItems = ${filteredCategories.map { it.items }}"
+        )
+        return listOf(firstMenu.copy(categories = filteredCategories))
+    }
 }
 
 sealed class MerchantHomeUiState {
     data class Success(
+        val initialMenus: List<MerchantMenuModel>,
         val menus: List<MerchantMenuModel>,
         val branding: MerchantBrandingModel
     ) : MerchantHomeUiState()

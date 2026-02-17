@@ -6,6 +6,7 @@ import com.example.kiosklikeapp.GetMerchantMenusQuery
 import com.example.kiosklikeapp.models.MerchantBrandingModel
 import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.NetworkResult
+import com.example.kiosklikeapp.utils.addAllMenusItem
 import com.example.kiosklikeapp.utils.toMenuDomainModel
 import com.example.kiosklikeapp.utils.toMerchantDataModel
 import kotlinx.coroutines.flow.Flow
@@ -48,7 +49,8 @@ class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantR
                 .execute()
 
             response.data?.menus?.takeIf { !response.hasErrors() }?.let {
-                NetworkResult.Success(it.toMenuDomainModel())
+                val menus = it.toMenuDomainModel()
+                NetworkResult.Success(menus.addAllMenusItem())
             } ?: NetworkResult.Error(
                 response.errors?.firstOrNull()?.message ?: "GraphQL Error"
             )

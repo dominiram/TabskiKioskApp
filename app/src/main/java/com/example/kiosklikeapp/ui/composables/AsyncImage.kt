@@ -2,6 +2,7 @@ package com.example.kiosklikeapp.ui.composables
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.example.kiosklikeapp.R
@@ -17,6 +18,7 @@ fun UrlImage(
         modifier = modifier,
         placeholder = painterResource(imagePlaceholder),
         error = painterResource(imagePlaceholder),
+        contentScale = ContentScale.FillBounds,
         contentDescription = null
     )
 }
