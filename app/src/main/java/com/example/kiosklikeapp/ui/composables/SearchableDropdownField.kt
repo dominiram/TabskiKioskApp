@@ -125,8 +125,10 @@ fun SearchableDropdownField(
                             .size(28.dp)
                             .align(Alignment.Center)
                             .clickable {
-                                if (isSearchMode) focusManager.clearFocus()
-                                else isExpanded = true
+                                if (isSearchMode) {
+                                    onSearchTriggered("")
+                                    focusManager.clearFocus()
+                                } else isExpanded = true
                             },
                         imageVector = if (!isSearchMode) Icons.Default.KeyboardArrowDown else Icons.Default.Clear,
                         tint = Color.DarkGray,

@@ -1,6 +1,5 @@
 package com.example.kiosklikeapp.ui.screens
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kiosklikeapp.models.MerchantBrandingModel
@@ -39,7 +38,8 @@ class MerchantHomePageViewModel @Inject constructor(
                 MerchantHomeUiState.Success(
                     initialMenus = initialMenus,
                     menus = displayedMenus,
-                    branding = brandingResult.data!!
+                    branding = brandingResult.data!!,
+                    searchText = searchText
                 )
             }
 
@@ -77,14 +77,6 @@ class MerchantHomePageViewModel @Inject constructor(
             )
         }.filter { it.items.isNotEmpty() }
 
-        Log.d(
-            "TAG",
-            "filterAllMenusByItems: filteredCategories = ${filteredCategories.map { it.name }}"
-        )
-        Log.d(
-            "TAG",
-            "filterAllMenusByItems: filteredCategoryItems = ${filteredCategories.map { it.items }}"
-        )
         return listOf(firstMenu.copy(categories = filteredCategories))
     }
 }
@@ -93,7 +85,8 @@ sealed class MerchantHomeUiState {
     data class Success(
         val initialMenus: List<MerchantMenuModel>,
         val menus: List<MerchantMenuModel>,
-        val branding: MerchantBrandingModel
+        val branding: MerchantBrandingModel,
+        val searchText: String
     ) : MerchantHomeUiState()
 
     data object Loading : MerchantHomeUiState()

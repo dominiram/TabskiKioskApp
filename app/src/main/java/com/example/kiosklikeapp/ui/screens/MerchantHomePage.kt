@@ -1,6 +1,5 @@
 package com.example.kiosklikeapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -57,13 +56,12 @@ fun MerchantHomePageWrapper() {
         is MerchantHomeUiState.Success -> MerchantHomePageScreen(
             menus = uiState.menus,
             branding = uiState.branding,
+            searchText = uiState.searchText,
             onSearchTriggered = { viewModel.onSearchTriggered(it) }
         )
 
         is MerchantHomeUiState.Error -> ErrorScreen(uiState.errorMessage)
         is MerchantHomeUiState.Loading -> LoadingScreen()
-    }.also {
-        Log.d("TAG", "MerchantHomePageWrapper: viewModel.uiState collected")
     }
 }
 
@@ -71,6 +69,7 @@ fun MerchantHomePageWrapper() {
 fun MerchantHomePageScreen(
     menus: List<MerchantMenuModel>,
     branding: MerchantBrandingModel,
+    searchText: String,
     onSearchTriggered: (String) -> Unit,
     backgroundColor: Color = Color(0xFFE5E4E2)
 ) {
@@ -108,7 +107,7 @@ fun MerchantHomePageScreen(
         }
 
         selectedMenu?.categories?.let { categories ->
-            MerchantCategories(
+            if (searchText.isBlank()) MerchantCategories(
                 categories = categories,
                 isCategorySelected = { it == selectedCategory }
             )
