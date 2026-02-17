@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @HiltViewModel
-class MerchantHomePageViewModel(
+class MerchantHomePageViewModel @Inject constructor(
     merchantRepository: MerchantRepository
 ) : ViewModel() {
     val uiState: StateFlow<MerchantHomeUiState> = combine(

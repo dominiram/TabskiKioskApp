@@ -20,3 +20,16 @@ fun TitleText(text: String, modifier: Modifier = Modifier, textColor: Color = Co
         )
     )
 }
+
+@Composable
+fun DescriptionText(text: String, modifier: Modifier = Modifier, textColor: Color = Color.Gray) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = TextStyle(
+            color = textColor,
+            fontSize = 18.sp,
+            fontWeight = FontWeight(400)
+        )
+    )
+}
