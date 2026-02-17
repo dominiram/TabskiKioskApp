@@ -22,14 +22,19 @@ fun ErrorTitleText(text: String, modifier: Modifier = Modifier, textColor: Color
 }
 
 @Composable
-fun TitleText(text: String, modifier: Modifier = Modifier, textColor: Color = Color.Black) {
+fun TitleText(
+    text: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.Black,
+    fontWeight: FontWeight = FontWeight(700)
+) {
     Text(
         modifier = modifier,
         text = text,
         style = TextStyle(
             color = textColor,
             fontSize = 18.sp,
-            fontWeight = FontWeight(700)
+            fontWeight = fontWeight
         )
     )
 }

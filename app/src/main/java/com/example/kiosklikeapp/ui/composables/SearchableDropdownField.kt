@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchableDropdownField(
+    modifier: Modifier = Modifier,
     items: List<String>,
     selectedMenu: String,
     onItemSelected: (String) -> Unit,
@@ -56,9 +57,9 @@ fun SearchableDropdownField(
     val focusRequester = remember { FocusRequester() }
 
     ExposedDropdownMenuBox(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(8.dp),
         expanded = isExpanded,
         onExpandedChange = {
             if (!isSearchMode) isExpanded = !isExpanded

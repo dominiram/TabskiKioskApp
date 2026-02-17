@@ -1,4 +1,4 @@
-package com.example.kiosklikeapp.ui.screens
+package com.example.kiosklikeapp.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.kiosklikeapp.ui.screens.MerchantHomePageWrapper
+import com.example.kiosklikeapp.ui.screens.home.MerchantHomePageWrapper
 import com.example.kiosklikeapp.ui.theme.KioskLikeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
