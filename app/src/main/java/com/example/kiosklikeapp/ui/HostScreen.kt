@@ -7,10 +7,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.kiosklikeapp.ui.screens.home.MerchantHomePageWrapper
 import com.example.kiosklikeapp.ui.screens.purchase.PurchaseScreen
+import kotlinx.serialization.Serializable
 
 sealed class NavigationScreen {
     data object MerchantHomePage : NavigationScreen()
-    data class PurchaseScreen(val price: String) : NavigationScreen()
+
+    @Serializable
+    data class PurchaseRoute(val price: String) : NavigationScreen()
 }
 
 @Composable
@@ -25,14 +28,14 @@ fun HostScreen() {
             MerchantHomePageWrapper(
                 navigateToPurchaseScreen = { price ->
                     navController.navigate(
-                        NavigationScreen.PurchaseScreen(price)
+                        NavigationScreen.PurchaseRoute(price)
                     )
                 }
             )
         }
 
-        composable<NavigationScreen.PurchaseScreen> { backStackEntry ->
-            val price = backStackEntry.toRoute<NavigationScreen.PurchaseScreen>().price
+        composable<NavigationScreen.PurchaseRoute> { backStackEntry ->
+            val price = backStackEntry.toRoute<NavigationScreen.PurchaseRoute>().price
             PurchaseScreen(price)
         }
     }

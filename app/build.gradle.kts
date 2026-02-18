@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -62,6 +63,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.material.icons)
+    implementation(libs.material.icons)
+    implementation(libs.kotlinx.serialization.json)
 }
 
 apollo {

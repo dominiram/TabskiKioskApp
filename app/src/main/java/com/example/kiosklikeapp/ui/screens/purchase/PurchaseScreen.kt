@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.kiosklikeapp.ui.Constants.DARK_RED_COLOR
 import com.example.kiosklikeapp.ui.composables.TitleText
 
 @Composable
@@ -38,12 +39,14 @@ fun PurchaseScreen(price: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = Color.White, shape = RoundedCornerShape(12.dp))
+                    .padding(16.dp)
             ) {
                 TitleText(text = "Order Summary")
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
+                        .background(color = Color.LightGray)
                 )
 
                 Row(
@@ -51,7 +54,15 @@ fun PurchaseScreen(price: String) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     TitleText(text = "Total")
-                    TitleText(text = "$$price")
+                    TitleText(text = price)
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color(DARK_RED_COLOR))
+                ) {
+                    TitleText(text = "Click to order", textColor = Color.White)
                 }
             }
         }
