@@ -39,7 +39,8 @@ fun PurchaseScreen(price: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = Color.White, shape = RoundedCornerShape(12.dp))
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 TitleText(text = "Order Summary")
                 HorizontalDivider(
@@ -60,9 +61,16 @@ fun PurchaseScreen(price: String) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Color(DARK_RED_COLOR))
+                        .background(
+                            color = Color(DARK_RED_COLOR),
+                            shape = RoundedCornerShape(12.dp)
+                        )
                 ) {
-                    TitleText(text = "Click to order", textColor = Color.White)
+                    TitleText(
+                        modifier = Modifier.padding(8.dp),
+                        text = "Click to order",
+                        textColor = Color.White
+                    )
                 }
             }
         }
