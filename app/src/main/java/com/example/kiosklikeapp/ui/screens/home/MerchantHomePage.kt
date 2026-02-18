@@ -37,6 +37,8 @@ import com.example.kiosklikeapp.models.MenuItemModel
 import com.example.kiosklikeapp.models.MerchantBrandingModel
 import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.PurchaseItemInfo
+import com.example.kiosklikeapp.repos.getTotalItemsCount
+import com.example.kiosklikeapp.repos.getTotalItemsPrice
 import com.example.kiosklikeapp.ui.Constants.DARK_RED_COLOR
 import com.example.kiosklikeapp.ui.Constants.LIGHT_RED_COLOR
 import com.example.kiosklikeapp.ui.composables.AddItemToCardBottomSheetDialog
@@ -46,7 +48,7 @@ import com.example.kiosklikeapp.ui.screens.LoadingScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun MerchantHomePageWrapper(navigateToPurchaseScreen: (String) -> Unit) {
+fun MerchantHomePageWrapper(navigateToPurchaseScreen: () -> Unit) {
     val viewModel: MerchantHomePageViewModel = hiltViewModel()
     var selectedItemForCustomization by remember { mutableStateOf<MenuItemModel?>(null) }
     val addedItems = viewModel.addedItems.collectAsState(emptyMap()).value
@@ -83,7 +85,7 @@ fun MerchantHomePageScreen(
     addedItems: Map<String, PurchaseItemInfo>,
     onSearchTriggered: (String) -> Unit,
     openCartBottomSheetDialog: (MenuItemModel) -> Unit,
-    navigateToPurchaseScreen: (String) -> Unit,
+    navigateToPurchaseScreen: () -> Unit,
     backgroundColor: Color = Color(0xFFE5E4E2)
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -164,13 +166,13 @@ fun MerchantHomePageScreen(
         addedItems.takeIf { it.isNotEmpty() }?.let {
             Row(
                 modifier = Modifier
+                    .clickable { navigateToPurchaseScreen() }
                     .windowInsetsPadding(WindowInsets.navigationBars)
                     .padding(horizontal = 8.dp, vertical = 8.dp)
                     .align(Alignment.BottomCenter)
                     .background(color = Color(DARK_RED_COLOR), shape = RoundedCornerShape(8.dp))
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 12.dp)
-                    .clickable { navigateToPurchaseScreen(addedItems.getTotalItemsPrice()) },
+                    .padding(horizontal = 12.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -193,7 +195,7 @@ fun MerchantHomePageScreen(
                     TitleText(text = "Order summary", textColor = Color.White)
                 }
 
-                TitleText(text = addedItems.getTotalItemsPrice(), textColor = Color.White)
+                TitleText(text = "$${addedItems.getTotalItemsPrice()}", textColor = Color.White)
             }
         }
     }
@@ -209,24 +211,4 @@ private fun findCategoryIndex(menu: MerchantMenuModel?, target: MenuCategoryMode
     }
 
     return index
-}
-
-private fun Map<String, PurchaseItemInfo>.getTotalItemsCount(): String {
-    var result = 0
-
-    for (purchaseItem in values) {
-        result += purchaseItem.count
-    }
-
-    return result.toString()
-}
-
-private fun Map<String, PurchaseItemInfo>.getTotalItemsPrice(): String {
-    var result = 0f
-
-    for (purchaseItem in values) {
-        result += purchaseItem.count * purchaseItem.price
-    }
-
-    return "$$result"
 }

@@ -6,14 +6,25 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.kiosklikeapp.ui.screens.home.MerchantHomePageWrapper
+import com.example.kiosklikeapp.ui.screens.purchase.OrderPurchaseDialog
+import com.example.kiosklikeapp.ui.screens.purchase.OrderPurchaseInfo
 import com.example.kiosklikeapp.ui.screens.purchase.PurchaseScreen
 import kotlinx.serialization.Serializable
 
 sealed class NavigationScreen {
+    @Serializable
     data object MerchantHomePage : NavigationScreen()
 
     @Serializable
-    data class PurchaseRoute(val price: String) : NavigationScreen()
+    data object PurchaseScreen : NavigationScreen()
+
+    @Serializable
+    data class PurchasePopUpDialog(
+        val totalPrice: Float,
+        val subtotalPrice: Float,
+        val tip: Float,
+        val taxes: Float = 1.10f,
+    ) : NavigationScreen()
 }
 
 @Composable
@@ -22,23 +33,40 @@ fun HostScreen() {
 
     NavHost(
         navController = navController,
-        startDestination = NavigationScreen.MerchantHomePage.toRoute()
+        startDestination = NavigationScreen.MerchantHomePage
     ) {
-        composable(NavigationScreen.MerchantHomePage.toRoute()) {
+        composable<NavigationScreen.MerchantHomePage> {
             MerchantHomePageWrapper(
-                navigateToPurchaseScreen = { price ->
+                navigateToPurchaseScreen = {
+                    navController.navigate(NavigationScreen.PurchaseScreen)
+                }
+            )
+        }
+
+        composable<NavigationScreen.PurchaseScreen> {
+            PurchaseScreen(
+                navigateToPaymentPopUpScreen = { orderInfo ->
                     navController.navigate(
-                        NavigationScreen.PurchaseRoute(price)
+                        NavigationScreen.PurchasePopUpDialog(
+                            totalPrice = orderInfo.totalPrice,
+                            subtotalPrice = orderInfo.subtotalPrice,
+                            tip = orderInfo.tip
+                        )
                     )
                 }
             )
         }
 
-        composable<NavigationScreen.PurchaseRoute> { backStackEntry ->
-            val price = backStackEntry.toRoute<NavigationScreen.PurchaseRoute>().price
-            PurchaseScreen(price)
+        composable<NavigationScreen.PurchasePopUpDialog> { backStackEntry ->
+            val route = backStackEntry.toRoute<NavigationScreen.PurchasePopUpDialog>()
+
+            OrderPurchaseDialog(
+                OrderPurchaseInfo(
+                    totalPrice = route.totalPrice,
+                    subtotalPrice = route.subtotalPrice,
+                    tip = route.tip
+                )
+            )
         }
     }
 }
-
-fun NavigationScreen.toRoute(): String = this::class.simpleName ?: this.toString()

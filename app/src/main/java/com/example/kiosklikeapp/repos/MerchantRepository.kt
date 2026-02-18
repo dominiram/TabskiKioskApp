@@ -8,6 +8,7 @@ import com.example.kiosklikeapp.models.MerchantBrandingModel
 import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.NetworkResult
 import com.example.kiosklikeapp.models.PurchaseItemInfo
+import com.example.kiosklikeapp.ui.screens.purchase.OrderPurchaseInfo
 import com.example.kiosklikeapp.utils.addAllMenusItem
 import com.example.kiosklikeapp.utils.toMenuDomainModel
 import com.example.kiosklikeapp.utils.toMerchantDataModel
@@ -23,11 +24,16 @@ interface MerchantRepository {
     fun storeAddedItems(item: MenuItemModel, count: Int)
 
     fun getAddedItemsFlow(): Flow<Map<String, PurchaseItemInfo>>
+
+    fun addPaymentTips(tipsPercentage: Int)
+
+    fun createOrderPurchaseInfo(): OrderPurchaseInfo
 }
 
 class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantRepository {
 
     private val addedItems = MutableStateFlow<Map<String, PurchaseItemInfo>>(mapOf())
+    private var tipsPercentage = 0
 
     override fun fetchBranding() = flow {
         val merchantId = MERCHANT_ID
@@ -102,7 +108,43 @@ class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantR
 
     override fun getAddedItemsFlow() = addedItems
 
+    override fun addPaymentTips(tipsPercentage: Int) {
+        this.tipsPercentage = tipsPercentage
+    }
+
+    override fun createOrderPurchaseInfo(): OrderPurchaseInfo {
+        val subtotalPrice = addedItems.value.getTotalItemsPrice()
+        val tip = tipsPercentage * subtotalPrice / 100
+        val totalPrice = subtotalPrice + tip + 1.1f
+
+        return OrderPurchaseInfo(
+            totalPrice = totalPrice,
+            tip = tip,
+            subtotalPrice = subtotalPrice
+        )
+    }
+
     companion object {
         private const val MERCHANT_ID = "cmaxrxqhs0icsob9oe0sccxuw"
     }
+}
+
+fun Map<String, PurchaseItemInfo>.getTotalItemsCount(): String {
+    var result = 0
+
+    for (purchaseItem in values) {
+        result += purchaseItem.count
+    }
+
+    return result.toString()
+}
+
+fun Map<String, PurchaseItemInfo>.getTotalItemsPrice(): Float {
+    var result = 0f
+
+    for (purchaseItem in values) {
+        result += purchaseItem.count * purchaseItem.price
+    }
+
+    return result
 }

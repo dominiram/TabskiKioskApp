@@ -93,7 +93,7 @@ fun AddItemToCardBottomSheetDialog(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     TitleTextLarge(text = item.name)
-                    TitleTextLarge(text = item.price.toString())
+                    TitleTextLarge(text = "$${item.price}")
                 }
 
                 DescriptionText(
@@ -114,10 +114,14 @@ fun AddItemToCardBottomSheetDialog(
                     text = "Order Notes. Please be concise!"
                 )
 
-                InstructionsField(
+                var text by remember { mutableStateOf("") }
+
+                RegularTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp),
+                    text = text,
+                    onTextChanged = { text = it }
                 )
             }
 
