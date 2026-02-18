@@ -22,6 +22,19 @@ fun ErrorTitleText(text: String, modifier: Modifier = Modifier, textColor: Color
 }
 
 @Composable
+fun TitleTextLarge(text: String, modifier: Modifier = Modifier, textColor: Color = Color.Black) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = TextStyle(
+            color = textColor,
+            fontSize = 24.sp,
+            fontWeight = FontWeight(700)
+        )
+    )
+}
+
+@Composable
 fun TitleText(
     text: String,
     modifier: Modifier = Modifier,

@@ -1,6 +1,7 @@
 package com.example.kiosklikeapp.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,11 +44,16 @@ fun MenuItemTitle(
 }
 
 @Composable
-fun MenuItem(item: MenuItemModel) {
+fun MenuItem(
+    modifier: Modifier = Modifier,
+    item: MenuItemModel,
+    onItemClicked: (MenuItemModel) -> Unit
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(color = Color.White, shape = RoundedCornerShape(8.dp))
+            .clickable { onItemClicked(item) }
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -56,7 +62,7 @@ fun MenuItem(item: MenuItemModel) {
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
-            verticalArrangement = Arrangement.SpaceBetween,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.Start
         ) {
             TitleText(text = item.name)

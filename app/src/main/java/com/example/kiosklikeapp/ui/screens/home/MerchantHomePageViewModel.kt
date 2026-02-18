@@ -2,6 +2,7 @@ package com.example.kiosklikeapp.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kiosklikeapp.models.MenuItemModel
 import com.example.kiosklikeapp.models.MerchantBrandingModel
 import com.example.kiosklikeapp.models.MerchantMenuModel
 import com.example.kiosklikeapp.models.NetworkResult
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MerchantHomePageViewModel @Inject constructor(
-    merchantRepository: MerchantRepository
+    private val merchantRepository: MerchantRepository
 ) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
 
@@ -59,6 +60,8 @@ class MerchantHomePageViewModel @Inject constructor(
         initialValue = MerchantHomeUiState.Loading
     )
 
+    val addedItems = merchantRepository.getAddedItemsFlow()
+
     fun onSearchTriggered(searchText: String) {
         _searchQuery.value = searchText
     }
@@ -79,6 +82,9 @@ class MerchantHomePageViewModel @Inject constructor(
 
         return listOf(firstMenu.copy(categories = filteredCategories))
     }
+
+    fun addItemToCount(item: MenuItemModel, count: Int) =
+        merchantRepository.storeAddedItems(item, count)
 }
 
 sealed class MerchantHomeUiState {

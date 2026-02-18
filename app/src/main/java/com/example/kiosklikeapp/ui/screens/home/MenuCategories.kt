@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.kiosklikeapp.models.MenuCategoryModel
+import com.example.kiosklikeapp.ui.Constants.DARK_RED_COLOR
 import com.example.kiosklikeapp.ui.composables.TitleText
 import kotlinx.coroutines.launch
 
@@ -106,7 +107,7 @@ private fun CategoryItem(
     TitleText(
         modifier = modifier
             .background(
-                color = if (isCategorySelected) Color.Red else Color.Transparent,
+                color = if (isCategorySelected) Color(DARK_RED_COLOR) else Color.Transparent,
                 shape = RoundedCornerShape(16.dp)
             )
             .clickable {

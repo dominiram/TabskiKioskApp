@@ -40,6 +40,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideMerchantRepository(
         apolloClient: ApolloClient
     ): MerchantRepository {
