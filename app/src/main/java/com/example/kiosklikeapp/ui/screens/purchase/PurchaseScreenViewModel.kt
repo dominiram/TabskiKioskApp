@@ -9,9 +9,13 @@ import javax.inject.Inject
 class PurchaseScreenViewModel @Inject constructor(
     private val merchantRepository: MerchantRepository
 ): ViewModel() {
+    val purchaseItems = merchantRepository.getAddedItemsFlow()
+
     fun addPaymentTips(tipsPercentage: Int) {
         merchantRepository.addPaymentTips(tipsPercentage)
     }
 
     fun createOrderPurchaseInfo(): OrderPurchaseInfo = merchantRepository.createOrderPurchaseInfo()
+
+    fun removePurchaseItem(itemId: String) = merchantRepository.removePurchaseItem(itemId)
 }

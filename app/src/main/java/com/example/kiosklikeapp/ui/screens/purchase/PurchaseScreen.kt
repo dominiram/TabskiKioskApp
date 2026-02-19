@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -23,10 +26,12 @@ import com.example.kiosklikeapp.ui.composables.TitleText
 @Composable
 fun PurchaseScreen(navigateToPaymentPopUpScreen: (OrderPurchaseInfo) -> Unit) {
     val viewModel: PurchaseScreenViewModel = hiltViewModel()
+    val items = viewModel.purchaseItems.collectAsState(emptyMap()).value
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(vertical = 24.dp, horizontal = 12.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -46,7 +51,10 @@ fun PurchaseScreen(navigateToPaymentPopUpScreen: (OrderPurchaseInfo) -> Unit) {
                 description = "As soon as possible (30 minutes)"
             )
 
-            OrderDetailsSection()
+            OrderDetailsSection(
+                items = items,
+                removeItem = { itemId -> viewModel.removePurchaseItem(itemId) }
+            )
 
             PurchaseInfoSection(
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),

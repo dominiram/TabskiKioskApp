@@ -28,6 +28,8 @@ interface MerchantRepository {
     fun addPaymentTips(tipsPercentage: Int)
 
     fun createOrderPurchaseInfo(): OrderPurchaseInfo
+
+    fun removePurchaseItem(itemId: String)
 }
 
 class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantRepository {
@@ -122,6 +124,18 @@ class MerchantRepositoryImpl(private val apolloClient: ApolloClient) : MerchantR
             tip = tip,
             subtotalPrice = subtotalPrice
         )
+    }
+
+    override fun removePurchaseItem(itemId: String) {
+        val itemsMap = hashMapOf<String, PurchaseItemInfo>().apply {
+            addedItems.value.filter { it.key != itemId }.takeIf { it.isNotEmpty() }?.let {
+                for ((key, value) in it) {
+                    put(key, value)
+                }
+            }
+        }
+
+        addedItems.value = itemsMap
     }
 
     companion object {
